@@ -16,7 +16,6 @@ import {
   Sun,
   Moon,
   User,
-  Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -49,6 +48,7 @@ import {
 import { ToolCard } from '@/components/dashboard/tool-card';
 import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
+import LoadingScreen from '@/components/loading-screen';
 
 
 type Category = 'All' | 'Offline' | 'Online' | 'AI' | 'Favorites';
@@ -121,11 +121,7 @@ export default function DashboardPage() {
   ] as const;
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-background">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
