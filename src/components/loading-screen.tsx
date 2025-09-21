@@ -44,7 +44,7 @@ const LoadingScreen = ({ isLoaded = false }: { isLoaded?: boolean }) => {
                 clearInterval(interval);
                 return prev;
             })
-        }, 50);
+        }, 10);
         return () => clearInterval(interval);
     }
   }, [isLoaded]);
