@@ -99,7 +99,7 @@ export default function AICodeGeneratorTool() {
                         <Skeleton className="h-4 w-[85%]" />
                     </div>
                     ) : generatedCode ? (
-                    <pre className="text-sm">
+                    <pre className="text-sm whitespace-pre-wrap break-words">
                         <code>{generatedCode}</code>
                     </pre>
                     ) : (
