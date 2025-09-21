@@ -7,6 +7,7 @@ import { Camera, Copy, Loader2, ScanLine } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import jsQR from 'jsqr';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 
 export default function QRScannerTool() {
   const [scanResult, setScanResult] = useState<string | null>(null);
@@ -56,20 +57,22 @@ export default function QRScannerTool() {
           const video = videoRef.current;
           const context = canvas.getContext('2d');
 
-          canvas.height = video.videoHeight;
-          canvas.width = video.videoWidth;
-          context?.drawImage(video, 0, 0, canvas.width, canvas.height);
-          
-          const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
-          if (imageData) {
-            const code = jsQR(imageData.data, imageData.width, imageData.height, {
-              inversionAttempts: 'dontInvert',
-            });
+          if (context) {
+            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            if (imageData) {
+              const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: 'dontInvert',
+              });
 
-            if (code) {
-              setScanResult(code.data);
-              setIsScanning(false);
-              toast({ title: 'QR Code Detected!', description: code.data });
+              if (code) {
+                setScanResult(code.data);
+                setIsScanning(false);
+                toast({ title: 'QR Code Detected!', description: code.data });
+              }
             }
           }
         }
@@ -106,8 +109,7 @@ export default function QRScannerTool() {
         {isScanning && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-2/3 h-2/3 border-4 border-primary/50 rounded-lg relative overflow-hidden">
-                <div className="absolute top-0 w-full h-1 bg-primary animate-ping"></div>
-                <ScanLine className="absolute top-0 w-full h-10 text-primary animate-[scan_2s_ease-in-out_infinite]" />
+                <ScanLine className="absolute top-0 w-full text-primary animate-[scan_2s_ease-in-out_infinite]" />
             </div>
           </div>
         )}
@@ -153,9 +155,3 @@ export default function QRScannerTool() {
     </div>
   );
 }
-
-// Add keyframes to globals.css for the scan animation if they don't exist
-// @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
-// tailwind.config.js
-// animation: { scan: 'scan 2s ease-in-out infinite' }
-// Since I cannot modify tailwind config, I will use a simple ping animation on a line.

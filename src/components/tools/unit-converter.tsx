@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowRightLeft } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
+import { Button } from '../ui/button';
 
 type UnitCategory = 'length' | 'weight' | 'temperature';
 
@@ -32,66 +33,47 @@ const units = {
 };
 
 const conversionFactors: { [key: string]: { [key: string]: (val: number) => number } } = {
-  // Length
+  // Length (base: meters)
   meters: {
+    meters: v => v,
     kilometers: (v) => v / 1000,
     centimeters: (v) => v * 100,
     feet: (v) => v * 3.28084,
     inches: (v) => v * 39.3701,
     miles: (v) => v / 1609.34,
   },
-  // Weight
-  grams: {
-    kilograms: (v) => v / 1000,
-    pounds: (v) => v * 0.00220462,
-    ounces: (v) => v * 0.035274,
+  kilometers: { meters: v => v * 1000 },
+  centimeters: { meters: v => v / 100 },
+  feet: { meters: v => v / 3.28084 },
+  inches: { meters: v => v / 39.3701 },
+  miles: { meters: v => v * 1609.34 },
+  
+  // Weight (base: kilograms)
+  kilograms: {
+    kilograms: v => v,
+    grams: (v) => v * 1000,
+    pounds: (v) => v * 2.20462,
+    ounces: (v) => v * 35.274,
   },
-  // Temperature
+  grams: { kilograms: v => v / 1000 },
+  pounds: { kilograms: v => v / 2.20462 },
+  ounces: { kilograms: v => v / 35.274 },
+  
+  // Temperature (base: celsius)
   celsius: {
+    celsius: v => v,
     fahrenheit: (v) => (v * 9/5) + 32,
     kelvin: (v) => v + 273.15,
   },
-  fahrenheit: {
-    celsius: (v) => (v - 32) * 5/9,
-    kelvin: (v) => (v - 32) * 5/9 + 273.15,
-  },
-  kelvin: {
-    celsius: (v) => v - 273.15,
-    fahrenheit: (v) => (v - 273.15) * 9/5 + 32,
-  },
+  fahrenheit: { celsius: v => (v - 32) * 5/9 },
+  kelvin: { celsius: v => v - 273.15 },
 };
 
-// Function to build full conversion map
-const buildFullConversionMap = () => {
-    const fullMap: { [key: string]: { [key: string]: (val: number) => number } } = {};
-    Object.keys(conversionFactors).forEach(fromUnit => {
-        if(!fullMap[fromUnit]) fullMap[fromUnit] = {};
-        fullMap[fromUnit][fromUnit] = v => v;
-        Object.keys(conversionFactors[fromUnit]).forEach(toUnit => {
-            if(!fullMap[toUnit]) fullMap[toUnit] = {};
-            fullMap[fromUnit][toUnit] = conversionFactors[fromUnit][toUnit];
-            fullMap[toUnit][fromUnit] = (v) => {
-                // Find inverse by converting to a base unit (e.g., meters) and then to target
-                // This is a simplified inverse, works for this structure.
-                for (const base of Object.keys(conversionFactors)) {
-                    if (conversionFactors[base]?.[toUnit]) {
-                       const baseVal = v / conversionFactors[base][toUnit](1);
-                       return conversionFactors[base][fromUnit](baseVal);
-                    }
-                }
-                // Fallback for temp which has inverse defined
-                 for (const directInverse of Object.keys(conversionFactors[toUnit] || {})) {
-                    if (directInverse === fromUnit) return conversionFactors[toUnit][fromUnit](v);
-                }
-                return NaN;
-            }
-        })
-    });
-    return fullMap;
+const getBaseUnit = (category: UnitCategory) => {
+    if (category === 'length') return 'meters';
+    if (category === 'weight') return 'kilograms';
+    return 'celsius';
 }
-
-const fullConversionMap = buildFullConversionMap();
-
 
 export default function UnitConverterTool() {
   const [category, setCategory] = useState<UnitCategory>('length');
@@ -102,14 +84,31 @@ export default function UnitConverterTool() {
   const availableUnits = units[category];
 
   const outputValue = useMemo(() => {
+    if (inputValue === null || isNaN(inputValue)) return '';
     if (fromUnit === toUnit) return inputValue;
-    const conversionFunc = fullConversionMap[fromUnit]?.[toUnit];
-    if (conversionFunc) {
-      const result = conversionFunc(inputValue);
-      return Math.round(result * 10000) / 10000; // round to 4 decimal places
+
+    const baseUnit = getBaseUnit(category);
+    
+    // Convert input value to base unit
+    const fromToBaseFn = conversionFactors[fromUnit]?.[baseUnit];
+    const baseValue = fromToBaseFn ? fromToBaseFn(inputValue) : inputValue;
+
+    // Convert base unit value to output unit
+    const baseToToFn = conversionFactors[baseUnit]?.[toUnit];
+    if (baseToToFn) {
+        const result = baseToToFn(baseValue);
+        return parseFloat(result.toPrecision(5));
     }
+    
+    // Direct conversion (for temp)
+    const directConversionFn = conversionFactors[fromUnit]?.[toUnit];
+     if (directConversionFn) {
+       const result = directConversionFn(inputValue);
+       return parseFloat(result.toPrecision(5));
+    }
+
     return 'N/A';
-  }, [inputValue, fromUnit, toUnit]);
+  }, [inputValue, fromUnit, toUnit, category]);
 
   const handleCategoryChange = (newCategory: UnitCategory) => {
     setCategory(newCategory);
@@ -146,7 +145,7 @@ export default function UnitConverterTool() {
                 {availableUnits.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
               </SelectContent>
             </Select>
-            <Input type="number" value={inputValue} onChange={e => setInputValue(Number(e.target.value))} className="text-2xl h-12" />
+            <Input type="number" value={inputValue} onChange={e => setInputValue(parseFloat(e.target.value))} className="text-2xl h-12" />
         </Card>
         
         <Button variant="ghost" size="icon" className="mx-auto" onClick={swapUnits}>

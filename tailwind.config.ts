@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -88,10 +89,15 @@ export default {
             height: '0',
           },
         },
+        scan: {
+          '0%': { transform: 'translateY(-20%)' },
+          '100%': { transform: 'translateY(calc(100% + 20px))' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'scan': 'scan 2s ease-in-out infinite',
       },
       boxShadow: {
         glow: '0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.5)',

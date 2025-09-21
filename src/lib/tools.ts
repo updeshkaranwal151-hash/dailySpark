@@ -21,6 +21,7 @@ import AIStoryGeneratorTool from '@/components/tools/ai-story-generator';
 import AIVoiceToTextTool from '@/components/tools/ai-voice-to-text';
 import AIVideoSummarizerTool from '@/components/tools/ai-video-summarizer';
 import WeatherTool from '@/components/tools/weather-tool';
+import AISmartSearchTool from '@/components/tools/ai-smart-search';
 
 export interface Tool {
   id: string;
@@ -132,6 +133,14 @@ export const allTools: Tool[] = [
     category: 'AI',
     component: AIVideoSummarizerTool,
   },
+  {
+    id: 'ai-smart-search',
+    name: 'AI Smart Search',
+    description: 'Get direct answers to your questions from the web.',
+    icon: 'AISmartSearch',
+    category: 'AI',
+    component: AISmartSearchTool,
+  },
   // Implemented Offline Tools
   {
     id: 'calculator',
@@ -204,7 +213,7 @@ export const allTools: Tool[] = [
   {
     id: 'flashlight',
     name: 'Flashlight',
-    description: 'Use your device\'s LED as a powerful flashlight.',
+    description: "Use your device's LED as a powerful flashlight.",
     icon: 'Flashlight',
     category: 'Offline',
   },
