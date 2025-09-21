@@ -5,7 +5,7 @@ import * as React from 'react';
 import { motion } from 'framer-motion';
 import { Tool } from '@/lib/tools';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Icons } from '@/components/icons';
 import { Button } from '../ui/button';
 import { Star, ArrowLeft } from 'lucide-react';
