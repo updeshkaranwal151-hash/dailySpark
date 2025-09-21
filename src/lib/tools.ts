@@ -3,7 +3,6 @@ import type { ComponentType } from 'react';
 import { Icons } from '@/components/icons';
 import AIChatTool from '@/components/tools/ai-chat';
 import AICodeGeneratorTool from '@/components/tools/ai-code-generator';
-import AIImageGeneratorTool from '@/components/tools/ai-image-generator';
 import AISummarizerTool from '@/components/tools/ai-summarizer';
 import CalculatorTool from '@/components/tools/calculator';
 import NotesTool from '@/components/tools/notes';
@@ -51,15 +50,6 @@ export const allTools: Tool[] = [
     icon: 'AICodingScriptGenerator',
     category: 'AI',
     component: AICodeGeneratorTool,
-  },
-  {
-    id: 'ai-image-generator',
-    name: 'AI Image Generator',
-    description: 'Create stunning images from textual descriptions.',
-    icon: 'AIImageGenerator',
-    category: 'AI',
-    component: AIImageGeneratorTool,
-    isFavorite: true,
   },
   {
     id: 'ai-summarizer',
