@@ -1,13 +1,14 @@
+
 'use client';
 
 import * as React from 'react';
 import { motion } from 'framer-motion';
 import { Tool } from '@/lib/tools';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Icons } from '@/components/icons';
 import { Button } from '../ui/button';
-import { Star } from 'lucide-react';
+import { Star, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useFavorites } from '@/hooks/use-favorites';
 
@@ -79,6 +80,14 @@ export function ToolCard({ tool, index }: ToolCardProps) {
           <div className="py-4">
             <tool.component />
           </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Dashboard
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       )}
     </Dialog>
