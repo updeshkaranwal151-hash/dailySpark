@@ -4,7 +4,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { withAdminAuth } from "@/hooks/use-auth.tsx";
 import Link from "next/link";
-import { Activity, Users, BrainCircuit, ArrowUpRight } from "lucide-react";
+import { Activity, Users, BrainCircuit, ArrowUpRight, ArrowLeft } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -117,7 +117,15 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen w-full flex-col">
        <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
-        <Link href="/" className="font-headline text-lg font-bold">Daily Spark</Link>
+        <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" asChild>
+                <Link href="/">
+                <ArrowLeft className="h-4 w-4" />
+                <span className="sr-only">Back to Dashboard</span>
+                </Link>
+            </Button>
+            <Link href="/" className="font-headline text-lg font-bold hidden sm:block">Daily Spark</Link>
+        </div>
         <h1 className="text-xl font-semibold">Admin Panel</h1>
       </header>
        <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
