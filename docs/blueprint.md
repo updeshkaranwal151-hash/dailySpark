@@ -1,0 +1,85 @@
+# **App Name**: Daily Spark
+
+## Core Features:
+
+- User Account Creation: Create user accounts with Name + Password (hashed).
+- Persistent Login: Maintain persistent login across reinstall.
+- Login Verification: Verify login credentials.
+- Profile Settings: Manage user profile settings.
+- Forgot Password: Recover password using 'Forgot Password' feature.
+- Remember Me: Enable 'Remember Me' option for quick login.
+- Calculator: Provide a basic calculator tool.
+- Unit Converter: Convert between different units.
+- Flashlight: Use device as a flashlight.
+- QR/Barcode Scanner: Scan QR codes and barcodes.
+- Compass: Display compass direction.
+- Level Tool: Use device as a level tool.
+- Ruler/AR Measurement: Measure objects using AR.
+- Magnifying Glass: Magnify objects using the camera.
+- Mirror: Use front camera as a mirror.
+- Voice Recorder: Record audio using the microphone.
+- Notes/Notepad: Create and manage notes.
+- To-Do List: Manage a to-do list.
+- Alarm/Timer/Stopwatch: Set alarms, timers, and use a stopwatch.
+- File Manager: Manage local files.
+- PDF Reader: Read PDF files.
+- Image Editor: Edit images.
+- Video Trimmer/Editor: Trim and edit videos.
+- Audio Player/Mixer: Play and mix audio files.
+- Random Number Generator: Generate random numbers.
+- Offline Dictionary/Thesaurus: Access a dictionary and thesaurus offline.
+- Translator: Translate text between languages.
+- Weather Updates: Get weather updates.
+- News Aggregator: Aggregate news from various sources.
+- Link Downloader: Download content from YouTube, Instagram, TikTok.
+- QR/URL Actions: Perform actions based on scanned QR codes/URLs.
+- VPN Integration: Integrate with VPN for secure browsing.
+- Wi-Fi Analyzer: Analyze Wi-Fi networks.
+- Data Usage Tracker: Track data usage.
+- Wallpaper/Ringtone Downloader: Download wallpapers and ringtones.
+- Cloud Backup/Sync: Backup and sync data to the cloud.
+- AI Chat Assistant: Use an AI chat assistant tool.
+- AI Coding/Script Generator: Use an AI tool to generate code and scripts.
+- AI Image Generator: Use an AI tool to generate images.
+- AI Summarizer: Use an AI tool to summarize content.
+- AI Translator: Use an AI tool for context-aware translation.
+- AI Text Rewriter: Use an AI tool to rewrite text.
+- AI Reminder/Planner: Use an AI tool to suggest optimized schedules.
+- AI File Organizer: Use an AI tool to categorize files.
+- AI PDF Extractor: Use an AI tool to extract data from PDFs.
+- AI OCR/Handwriting Recognition: Use an AI tool to convert images and handwriting to text.
+- AI Email Draft Writer: Use an AI tool to generate email drafts.
+- AI Voice-to-Text: Use an AI tool to convert voice to text.
+- AI Brainstorm/Idea Generator: Use an AI tool to generate ideas.
+- AI Photo Enhancer: Use an AI tool to improve photo quality.
+- AI Video Summarizer: Use an AI tool to summarize videos.
+- AI Grammar/Spell Checker: Use an AI tool to check grammar and spelling.
+- AI Shopping Assistant: Use an AI tool to compare prices and suggest deals.
+- AI Health Tips: Use an AI tool to provide health tips.
+- AI Smart Search: Use an AI tool to search notes, files, and images.
+- AI Emotion Detector: Use an AI tool to detect emotion from text or camera.
+- Dashboard: Categorized Offline/Online/AI tools, search bar, favorites/pinned tools, dark/light mode toggle, modular tool cards with lazy-loading, responsive design for desktop/tablet/mobile, installable PWA with offline caching.
+
+## Style Guidelines:
+
+- Primary palette: Soft electric blue to turquoise gradients.
+- Background: Muted gray backgrounds.
+- Content areas: White.
+- Accent: Vibrant coral or lime green for notifications and call-to-actions.
+- Optional: Deep navy dark mode.
+- Modular vertical feed of cards with subtle shadows and rounded corners.
+- Consistent spacing and padding.
+- Clearly defined sections for titles, content, and actions.
+- Navigation: Sidebar or tabs on desktop, bottom navigation on mobile.
+- Headlines: 'Inter', bold.
+- Body text: 'Roboto', regular.
+- Minimalist, line-based icons with rounded corners and consistent sizing.
+- Semantic icons for intuitive actions.
+- Card elevation on hover or tap.
+- Smooth page transitions.
+- Micro-interactions for toggles and loading states.
+- Feedback animations for completed tasks or errors.
+- Sticky search bars.
+- Progressive disclosure on cards.
+- Adaptive spacing for different devices.
+- Accessibility features: high contrast and tappable areas ≥44px.
