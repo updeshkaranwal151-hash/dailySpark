@@ -16,10 +16,12 @@ import {
   Sun,
   Moon,
   User,
+  Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { User as FirebaseAuthUser } from 'firebase/auth';
 
 
 import { Input } from '@/components/ui/input';
@@ -55,14 +57,19 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [activeCategory, setActiveCategory] = React.useState<Category>('All');
   const [theme, setTheme] = React.useState('dark');
+  const [user, setUser] = React.useState<FirebaseAuthUser | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
   const router = useRouter();
   const { toast } = useToast();
 
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      if (!user) {
+      if (user) {
+        setUser(user);
+      } else {
         router.push('/login');
       }
+      setIsLoading(false);
     });
     return () => unsubscribe();
   }, [router]);
@@ -112,6 +119,14 @@ export default function DashboardPage() {
     { name: 'AI', icon: <BrainCircuit />, category: 'AI' },
     { name: 'Favorites', icon: <Star />, category: 'Favorites' },
   ] as const;
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -203,9 +218,9 @@ export default function DashboardPage() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{auth.currentUser?.displayName || 'John Doe'}</p>
+                  <p className="text-sm font-medium leading-none">{user?.displayName || 'John Doe'}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {auth.currentUser?.email || 'john.doe@example.com'}
+                    {user?.email || 'john.doe@example.com'}
                   </p>
                 </div>
               </DropdownMenuLabel>
