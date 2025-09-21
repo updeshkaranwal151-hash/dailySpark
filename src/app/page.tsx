@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -18,6 +19,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 
 import { Input } from '@/components/ui/input';
 import {
@@ -42,6 +45,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ToolCard } from '@/components/dashboard/tool-card';
+import { auth } from '@/lib/firebase';
+import { useToast } from '@/hooks/use-toast';
+
 
 type Category = 'All' | 'Offline' | 'Online' | 'AI' | 'Favorites';
 
@@ -49,6 +55,31 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [activeCategory, setActiveCategory] = React.useState<Category>('All');
   const [theme, setTheme] = React.useState('dark');
+  const router = useRouter();
+  const { toast } = useToast();
+
+  React.useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (!user) {
+        router.push('/login');
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      router.push('/login');
+    } catch (error) {
+      console.error('Error signing out: ', error);
+      toast({
+        title: 'Logout Failed',
+        description: 'An error occurred while logging out. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  };
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -128,11 +159,9 @@ export default function DashboardPage() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={{ children: 'Log Out' }}>
-                <Link href="/login">
-                  <LogOut />
-                  <span>Log Out</span>
-                </Link>
+              <SidebarMenuButton onClick={handleLogout} tooltip={{ children: 'Log Out' }}>
+                <LogOut />
+                <span>Log Out</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -174,9 +203,9 @@ export default function DashboardPage() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">John Doe</p>
+                  <p className="text-sm font-medium leading-none">{auth.currentUser?.displayName || 'John Doe'}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    john.doe@example.com
+                    {auth.currentUser?.email || 'john.doe@example.com'}
                   </p>
                 </div>
               </DropdownMenuLabel>
@@ -194,11 +223,9 @@ export default function DashboardPage() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/login">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </Link>
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
