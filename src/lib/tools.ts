@@ -17,6 +17,7 @@ import AISmartSearchTool from '@/components/tools/ai-smart-search';
 import AITextRewriterTool from '@/components/tools/ai-text-rewriter';
 import QRScannerTool from '@/components/tools/qr-scanner';
 import UnitConverterTool from '@/components/tools/unit-converter';
+import AIPhotoEnhancerTool from '@/components/tools/ai-photo-enhancer';
 
 export interface Tool {
   id: string;
@@ -104,6 +105,14 @@ export const allTools: Tool[] = [
     category: 'AI',
     component: AITextRewriterTool,
   },
+  {
+    id: 'ai-photo-enhancer',
+    name: 'AI Photo Enhancer',
+    description: 'Automatically improve the quality of your photos.',
+    icon: 'AIPhotoEnhancer',
+    category: 'AI',
+    component: AIPhotoEnhancerTool,
+  },
   // Implemented Offline Tools
   {
     id: 'calculator',
@@ -185,13 +194,6 @@ export const allTools: Tool[] = [
     description: 'Find your direction with a simple and accurate compass.',
     icon: 'Compass',
     category: 'Offline',
-  },
-  {
-    id: 'ai-photo-enhancer',
-    name: 'AI Photo Enhancer',
-    description: 'Automatically improve the quality of your photos.',
-    icon: 'AIPhotoEnhancer',
-    category: 'AI',
   },
   {
     id: 'news-aggregator',
