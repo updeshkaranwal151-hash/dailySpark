@@ -13,7 +13,6 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useToast } from "@/hooks/use-toast";
-import { auth } from "@/lib/firebase";
 import {
   AlertDialog,
   AlertDialogAction,
