@@ -112,9 +112,9 @@ export default function AIChatTool() {
   };
 
   return (
-    <div className="flex h-[60vh] flex-col">
-      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-        <div className="space-y-6">
+    <div className="flex flex-col h-full min-h-[calc(80vh-180px)]">
+      <ScrollArea className="flex-1 p-4 -mx-4" ref={scrollAreaRef}>
+        <div className="space-y-6 px-4">
           <AnimatePresence>
             {messages.map(message => (
               <motion.div
@@ -183,7 +183,7 @@ export default function AIChatTool() {
           </AnimatePresence>
         </div>
       </ScrollArea>
-      <div className="border-t p-4">
+      <div className="border-t pt-4">
         {image && (
           <div className="relative mb-2 w-24 h-24">
             <Image src={image} alt="Preview" layout="fill" className="rounded-md object-cover" />

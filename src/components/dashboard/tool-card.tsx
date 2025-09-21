@@ -5,12 +5,13 @@ import * as React from 'react';
 import { motion } from 'framer-motion';
 import { Tool } from '@/lib/tools';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Icons } from '@/components/icons';
 import { Button } from '../ui/button';
 import { Star, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useFavorites } from '@/hooks/use-favorites';
+import { ScrollArea } from '../ui/scroll-area';
 
 interface ToolCardProps {
   tool: Tool;
@@ -70,17 +71,19 @@ export function ToolCard({ tool, index }: ToolCardProps) {
         </motion.div>
       </DialogTrigger>
       {tool.component && (
-        <DialogContent className="sm:max-w-[425px] md:sm:max-w-[600px] lg:sm:max-w-[800px]">
+        <DialogContent className="sm:max-w-[425px] md:sm:max-w-[600px] lg:sm:max-w-[800px] flex flex-col h-full max-h-[90vh]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 font-headline">
               <Icon className="h-5 w-5 text-primary" />
               {tool.name}
             </DialogTitle>
           </DialogHeader>
-          <div className="py-4">
-            <tool.component />
-          </div>
-          <DialogFooter>
+          <ScrollArea className="flex-1 -mx-6">
+            <div className="px-6 py-4">
+                <tool.component />
+            </div>
+          </ScrollArea>
+          <DialogFooter className="mt-auto -mb-6 -mx-6 p-6 border-t bg-background">
             <DialogClose asChild>
               <Button variant="outline">
                 <ArrowLeft className="mr-2 h-4 w-4" />

@@ -41,7 +41,7 @@ export default function NotesTool() {
   };
 
   return (
-    <div className="flex flex-col gap-4 h-[60vh]">
+    <div className="flex flex-col gap-4 h-full min-h-[calc(80vh-180px)]">
       <Textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}

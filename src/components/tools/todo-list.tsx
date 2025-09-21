@@ -57,7 +57,7 @@ export default function TodoListTool() {
   const totalCount = todos.length;
 
   return (
-    <div className="flex flex-col h-[60vh]">
+    <div className="flex flex-col h-full min-h-[calc(80vh-180px)]">
       <div className="flex gap-2 p-1">
         <Input
           value={input}

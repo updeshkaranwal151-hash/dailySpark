@@ -49,6 +49,7 @@ import { useToast } from '@/hooks/use-toast';
 import LoadingScreen from '@/components/loading-screen';
 import { useAllFavorites } from '@/hooks/use-favorites';
 import { useAuth } from '@/hooks/use-auth.tsx';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 type Category = 'All' | 'Offline' | 'Online' | 'AI' | 'Favorites';
@@ -225,24 +226,28 @@ export default function DashboardPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex-1 p-4 md:p-6">
-          <AnimatePresence>
-            <motion.div
-              layout
-              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
-            >
-              {filteredTools.map((tool, index) => (
-                <ToolCard key={tool.id} tool={tool} index={index} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-          {filteredTools.length === 0 && (
-            <div className="flex flex-col items-center justify-center text-center text-muted-foreground h-64">
-                <Search className="w-16 h-16 mb-4"/>
-                <p className="font-headline text-xl">No tools found</p>
-                <p>Try a different search term or category.</p>
-            </div>
-          )}
+        <main className="flex-1 overflow-auto">
+            <ScrollArea className="h-full">
+              <div className="p-4 md:p-6">
+                <AnimatePresence>
+                    <motion.div
+                    layout
+                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+                    >
+                    {filteredTools.map((tool, index) => (
+                        <ToolCard key={tool.id} tool={tool} index={index} />
+                    ))}
+                    </motion.div>
+                </AnimatePresence>
+                {filteredTools.length === 0 && (
+                    <div className="flex flex-col items-center justify-center text-center text-muted-foreground h-64">
+                        <Search className="w-16 h-16 mb-4"/>
+                        <p className="font-headline text-xl">No tools found</p>
+                        <p>Try a different search term or category.</p>
+                    </div>
+                )}
+              </div>
+            </ScrollArea>
         </main>
       </SidebarInset>
     </SidebarProvider>
