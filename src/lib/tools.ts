@@ -22,6 +22,7 @@ import AIVideoSummarizerTool from '@/components/tools/ai-video-summarizer';
 import WeatherTool from '@/components/tools/weather-tool';
 import AISmartSearchTool from '@/components/tools/ai-smart-search';
 import NewsAggregatorTool from '@/components/tools/news-aggregator';
+import CompassTool from '@/components/tools/compass';
 
 export interface Tool {
   id: string;
@@ -182,6 +183,14 @@ export const allTools: Tool[] = [
     category: 'Offline',
     component: UnitConverterTool,
   },
+  {
+    id: 'compass',
+    name: 'Compass',
+    description: 'Find your direction with a simple and accurate compass.',
+    icon: 'Compass',
+    category: 'Offline',
+    component: CompassTool,
+  },
    // Implemented Online Tools
   {
     id: 'translator',
@@ -209,20 +218,6 @@ export const allTools: Tool[] = [
     component: NewsAggregatorTool,
   },
   // Placeholder Tools
-  {
-    id: 'flashlight',
-    name: 'Flashlight',
-    description: "Use your device's LED as a powerful flashlight.",
-    icon: 'Flashlight',
-    category: 'Offline',
-  },
-  {
-    id: 'compass',
-    name: 'Compass',
-    description: 'Find your direction with a simple and accurate compass.',
-    icon: 'Compass',
-    category: 'Offline',
-  },
   {
     id: 'cloud-backup-sync',
     name: 'Cloud Backup/Sync',
