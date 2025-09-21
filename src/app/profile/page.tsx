@@ -86,7 +86,7 @@ export default function ProfilePage() {
     };
     
     if (isAuthLoading || !user) {
-        return <LoadingScreen isLoaded={!isAuthLoading} />;
+      return <LoadingScreen isLoaded={!isAuthLoading} />;
     }
 
   return (
@@ -114,16 +114,16 @@ export default function ProfilePage() {
             <Link href="/profile" className="font-semibold text-primary">
               Profile
             </Link>
-            <Link href="/profile">
+            <Link href="#">
               Account
             </Link>
-            <Link href="/profile">
+            <Link href="#">
               Appearance
             </Link>
-            <Link href="/profile">
+            <Link href="#">
               Notifications
             </Link>
-            <Link href="/profile">
+            <Link href="#">
               Advanced
             </Link>
           </nav>
