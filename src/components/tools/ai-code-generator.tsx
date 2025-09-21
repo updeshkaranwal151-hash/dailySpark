@@ -292,7 +292,7 @@ export default function AICodeGeneratorTool() {
               <ScrollArea className="h-64">
                   <div className="p-4">
                       {generatedCode ? (
-                        <pre className="text-sm whitespace-pre-wrap break-words font-code">
+                        <pre className="text-sm whitespace-pre-wrap break-all font-code overflow-auto">
                             <code>{generatedCode}</code>
                         </pre>
                       ) : (
