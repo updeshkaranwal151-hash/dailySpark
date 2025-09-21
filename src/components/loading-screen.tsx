@@ -34,7 +34,7 @@ const LoadingScreen = () => {
         }
         return prev + 1;
       });
-    }, 80); // This will make the progress bar fill over ~8 seconds
+    }, 20); // This will make the progress bar fill over ~2 seconds
 
     return () => {
       clearInterval(messageInterval);
