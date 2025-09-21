@@ -10,6 +10,7 @@ import NotesTool from '@/components/tools/notes';
 import TodoListTool from '@/components/tools/todo-list';
 import RandomNumberTool from '@/components/tools/random-number-generator';
 import TranslatorTool from '@/components/tools/translator';
+import AIEmotionDetectorTool from '@/components/tools/ai-emotion-detector';
 
 export interface Tool {
   id: string;
@@ -56,6 +57,14 @@ export const allTools: Tool[] = [
     icon: 'AISummarizer',
     category: 'AI',
     component: AISummarizerTool,
+  },
+  {
+    id: 'ai-emotion-detector',
+    name: 'AI Emotion Detector',
+    description: 'Analyze text to determine the underlying emotion.',
+    icon: 'AIEmotionDetector',
+    category: 'AI',
+    component: AIEmotionDetectorTool,
   },
   // Implemented Offline Tools
   {
