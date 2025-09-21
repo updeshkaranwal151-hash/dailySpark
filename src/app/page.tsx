@@ -66,10 +66,10 @@ export default function DashboardPage() {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
-        setIsLoading(false);
       } else {
         router.push('/login');
       }
+      setIsLoading(false);
     });
     return () => unsubscribe();
   }, [router]);
@@ -120,8 +120,8 @@ export default function DashboardPage() {
     { name: 'Favorites', icon: <Star />, category: 'Favorites' },
   ] as const;
 
-  if (isLoading) {
-    return <LoadingScreen />;
+  if (isLoading || !user) {
+    return <LoadingScreen isLoaded={!isLoading} />;
   }
 
   return (

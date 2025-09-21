@@ -14,7 +14,7 @@ const motivationalMessages = [
   'Almost There!',
 ];
 
-const LoadingScreen = () => {
+const LoadingScreen = ({ isLoaded = false }: { isLoaded?: boolean }) => {
   const [messageIndex, setMessageIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isClient, setIsClient] = useState(false);
@@ -26,21 +26,28 @@ const LoadingScreen = () => {
       setMessageIndex((prevIndex) => (prevIndex + 1) % motivationalMessages.length);
     }, 2500);
 
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 20); // This will make the progress bar fill over ~2 seconds
-
     return () => {
       clearInterval(messageInterval);
-      clearInterval(progressInterval);
     };
   }, []);
+  
+  useEffect(() => {
+    if (isLoaded) {
+      setProgress(100);
+    } else {
+        // Animate progress to 90% and wait for isLoaded
+        const interval = setInterval(() => {
+            setProgress(prev => {
+                if(prev < 90) {
+                    return prev + 1;
+                }
+                clearInterval(interval);
+                return prev;
+            })
+        }, 50);
+        return () => clearInterval(interval);
+    }
+  }, [isLoaded]);
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-gradient-to-br from-[#0a192f] to-[#1e3a8a] text-white overflow-hidden relative">
@@ -103,7 +110,7 @@ const LoadingScreen = () => {
             className="h-full bg-blue-400 shadow-glow"
             initial={{ width: '0%' }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.1, ease: "linear" }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
           />
         </div>
 
