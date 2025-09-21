@@ -66,10 +66,10 @@ export default function DashboardPage() {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
+        setIsLoading(false);
       } else {
         router.push('/login');
       }
-      setIsLoading(false);
     });
     return () => unsubscribe();
   }, [router]);
