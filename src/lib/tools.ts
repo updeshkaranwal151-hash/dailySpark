@@ -20,6 +20,7 @@ import UnitConverterTool from '@/components/tools/unit-converter';
 import AIPhotoEnhancerTool from '@/components/tools/ai-photo-enhancer';
 import AIStoryGeneratorTool from '@/components/tools/ai-story-generator';
 import AIVoiceToTextTool from '@/components/tools/ai-voice-to-text';
+import AIVideoSummarizerTool from '@/components/tools/ai-video-summarizer';
 
 export interface Tool {
   id: string;
@@ -130,6 +131,14 @@ export const allTools: Tool[] = [
     icon: 'AIVoiceToText',
     category: 'AI',
     component: AIVoiceToTextTool,
+  },
+   {
+    id: 'ai-video-summarizer',
+    name: 'AI Video Summarizer',
+    description: 'Generate a summary from a video file.',
+    icon: 'AIVideoSummarizer',
+    category: 'AI',
+    component: AIVideoSummarizerTool,
   },
   // Implemented Offline Tools
   {

@@ -15,4 +15,4 @@ import '@/ai/flows/ai-chat.ts';
 import '@/ai/flows/ai-photo-enhancer.ts';
 import '@/ai/flows/ai-story-generator.ts';
 import '@/ai/flows/ai-voice-to-text.ts';
-
+import '@/ai/flows/ai-video-summarizer.ts';
