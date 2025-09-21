@@ -93,7 +93,7 @@ export const withAuth = <P extends object>(Component: ComponentType<P>) => {
     }, [user, isLoading, hasApiKey, router]);
 
     if (isLoading || !user || !hasApiKey) {
-      return <LoadingScreen />;
+      return <LoadingScreen isLoaded={!isLoading && !!user && hasApiKey} />;
     }
 
     return <Component {...props} />;
@@ -120,7 +120,7 @@ export const withAdminAuth = <P extends object>(Component: ComponentType<P>) => 
         }, [user, isAdmin, isLoading, hasApiKey, router]);
 
         if (isLoading || !user || !isAdmin || !hasApiKey) {
-            return <LoadingScreen />;
+            return <LoadingScreen isLoaded={!isLoading && !!user && hasApiKey && isAdmin} />;
         }
 
         return <Component {...props} />;

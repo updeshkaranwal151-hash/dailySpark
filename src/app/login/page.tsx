@@ -19,6 +19,7 @@ import { auth } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth.tsx";
 import { GEMINI_API_KEY_STORAGE_KEY } from "@/lib/constants";
+import LoadingScreen from "@/components/loading-screen";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -56,11 +57,7 @@ export default function LoginPage() {
   };
   
   if (isAuthLoading || user) {
-    return (
-        <div className="flex h-screen w-full items-center justify-center bg-background">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        </div>
-    );
+    return <LoadingScreen isLoaded={!isAuthLoading && !!user} />;
   }
 
   return (

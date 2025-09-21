@@ -11,6 +11,7 @@ import { BrainCircuit, Loader2, KeyRound, HelpCircle, ExternalLink } from 'lucid
 import { useAuth } from '@/hooks/use-auth.tsx';
 import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import LoadingScreen from '@/components/loading-screen';
 
 export default function WelcomePage() {
   const [apiKey, setApiKey] = useState('');
@@ -35,11 +36,7 @@ export default function WelcomePage() {
   };
   
   if (isAuthLoading || !user) {
-    return (
-        <div className="flex h-screen w-full items-center justify-center bg-background">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        </div>
-    );
+    return <LoadingScreen isLoaded={!isAuthLoading && !!user} />;
   }
 
   return (
