@@ -15,7 +15,6 @@ import AIGrammarCheckerTool from '@/components/tools/ai-grammar-checker';
 import AITextRewriterTool from '@/components/tools/ai-text-rewriter';
 import QRScannerTool from '@/components/tools/qr-scanner';
 import UnitConverterTool from '@/components/tools/unit-converter';
-import AIPhotoEnhancerTool from '@/components/tools/ai-photo-enhancer';
 import AIStoryGeneratorTool from '@/components/tools/ai-story-generator';
 import AIVoiceToTextTool from '@/components/tools/ai-voice-to-text';
 import AIVideoSummarizerTool from '@/components/tools/ai-video-summarizer';
@@ -94,14 +93,6 @@ export const allTools: Tool[] = [
     icon: 'AITextRewriter',
     category: 'AI',
     component: AITextRewriterTool,
-  },
-  {
-    id: 'ai-photo-enhancer',
-    name: 'AI Photo Enhancer',
-    description: 'Automatically improve the quality of your photos.',
-    icon: 'AIPhotoEnhancer',
-    category: 'AI',
-    component: AIPhotoEnhancerTool,
   },
   {
     id: 'ai-story-generator',

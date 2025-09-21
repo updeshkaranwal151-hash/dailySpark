@@ -1,58 +1,17 @@
+import { config } from 'dotenv';
+config();
 
-'use server';
-/**
- * @fileOverview An AI-powered photo enhancer.
- *
- * - enhancePhoto - A function that enhances a given photo.
- * - EnhancePhotoInput - The input type for the enhancePhoto function.
- * - EnhancePhotoOutput - The return type for the enhancePhoto function.
- */
-
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-
-const EnhancePhotoInputSchema = z.object({
-  photoDataUri: z
-    .string()
-    .describe(
-      "A photo of a plant, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  apiKey: z.string().optional().describe('The user provided API key.'),
-});
-export type EnhancePhotoInput = z.infer<typeof EnhancePhotoInputSchema>;
-
-const EnhancePhotoOutputSchema = z.object({
-  enhancedImageUrl: z.string().describe('The URL of the enhanced image.'),
-});
-export type EnhancePhotoOutput = z.infer<typeof EnhancePhotoOutputSchema>;
-
-export async function enhancePhoto(input: EnhancePhotoInput): Promise<EnhancePhotoOutput> {
-  return enhancePhotoFlow(input);
-}
-
-const enhancePhotoFlow = ai.defineFlow(
-  {
-    name: 'enhancePhotoFlow',
-    inputSchema: EnhancePhotoInputSchema,
-    outputSchema: EnhancePhotoOutputSchema,
-  },
-  async input => {
-    const {media} = await ai.generate({
-      model: 'googleai/gemini-2.5-flash-image-preview',
-      prompt: [
-        {media: {url: input.photoDataUri}},
-        {text: 'Enhance this photo to improve its quality, color, and sharpness. Make it look more professional.'},
-      ],
-      config: {
-        responseModalities: ['TEXT', 'IMAGE'],
-      },
-      auth: input.apiKey,
-    });
-    
-    if (!media || !media.url) {
-      throw new Error('Failed to enhance photo.');
-    }
-
-    return {enhancedImageUrl: media.url};
-  }
-);
+import '@/ai/flows/ai-code-generator.ts';
+import '@/ai/flows/ai-summarizer.ts';
+import '@/ai/flows/ai-translator.ts';
+import '@/ai/flows/ai-emotion-detector.ts';
+import '@/ai/flows/ai-brainstorm.ts';
+import '@/ai/flows/ai-grammar-checker.ts';
+import '@/ai/flows-ai-text-rewriter.ts';
+import '@/ai/flows/ai-chat.ts';
+import '@/ai/flows/ai-story-generator.ts';
+import '@/ai/flows/ai-voice-to-text.ts';
+import '@/ai/flows/ai-video-summarizer.ts';
+import '@/ai/flows/ai-weather-tool.ts';
+import '@/ai/flows/ai-smart-search.ts';
+import '@/ai/flows/ai-news-aggregator.ts';
