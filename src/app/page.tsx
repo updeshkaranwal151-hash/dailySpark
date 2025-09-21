@@ -19,7 +19,6 @@ import {
   Shield,
 } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
@@ -195,7 +194,8 @@ export default function DashboardPage() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="relative h-10 w-10 rounded-full"
+                size="icon"
+                className="relative rounded-full"
               >
                 <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                   <User className="w-6 h-6 text-primary" />
