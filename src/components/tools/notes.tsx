@@ -5,22 +5,32 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Save, Download, Trash2 } from 'lucide-react';
+import { Save, Download, Trash2, Loader2 } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
+import { getUserData, saveUserData } from '@/services/database';
 
 export default function NotesTool() {
   const [note, setNote] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   useEffect(() => {
-    const savedNote = localStorage.getItem('daily-spark-note');
-    if (savedNote) {
-      setNote(savedNote);
+    if (user) {
+      setIsLoading(true);
+      getUserData(user.uid, 'note').then((savedNote) => {
+        if (savedNote && typeof savedNote === 'string') {
+          setNote(savedNote);
+        }
+        setIsLoading(false);
+      });
     }
-  }, []);
+  }, [user]);
 
-  const handleSave = () => {
-    localStorage.setItem('daily-spark-note', note);
-    toast({ title: 'Note saved!', description: 'Your note has been saved locally.' });
+  const handleSave = async () => {
+    if (!user) return;
+    await saveUserData(user.uid, 'note', note);
+    toast({ title: 'Note saved!', description: 'Your note has been saved to the cloud.' });
   };
 
   const handleDownload = () => {
@@ -34,11 +44,20 @@ export default function NotesTool() {
     toast({ title: 'Note downloaded!', description: 'note.txt has been downloaded.' });
   };
   
-  const handleClear = () => {
+  const handleClear = async () => {
+    if (!user) return;
     setNote('');
-    localStorage.removeItem('daily-spark-note');
+    await saveUserData(user.uid, 'note', '');
     toast({ title: 'Note cleared!', variant: 'destructive' });
   };
+  
+  if (isLoading) {
+    return (
+        <div className="flex items-center justify-center min-h-[calc(80vh-180px)]">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-4 h-full min-h-[calc(80vh-180px)]">

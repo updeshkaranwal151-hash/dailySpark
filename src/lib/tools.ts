@@ -146,22 +146,6 @@ export const allTools: Tool[] = [
     isFavorite: true,
   },
   {
-    id: 'notes-notepad',
-    name: 'Notes / Notepad',
-    description: 'Quickly jot down notes, ideas, and reminders.',
-    icon: 'NotesNotepad',
-    category: 'Offline',
-    component: NotesTool,
-  },
-  {
-    id: 'to-do-list',
-    name: 'To-Do List',
-    description: 'Organize your tasks and manage your productivity.',
-    icon: 'ToDoList',
-    category: 'Offline',
-    component: TodoListTool,
-  },
-  {
     id: 'random-number-generator',
     name: 'Random Number Generator',
     description: 'Generate random numbers within a specified range.',
@@ -211,6 +195,22 @@ export const allTools: Tool[] = [
   },
    // Implemented Online Tools
   {
+    id: 'notes-notepad',
+    name: 'Notes / Notepad',
+    description: 'Quickly jot down notes, ideas, and reminders.',
+    icon: 'NotesNotepad',
+    category: 'Online',
+    component: NotesTool,
+  },
+  {
+    id: 'to-do-list',
+    name: 'To-Do List',
+    description: 'Organize your tasks and manage your productivity.',
+    icon: 'ToDoList',
+    category: 'Online',
+    component: TodoListTool,
+  },
+  {
     id: 'translator',
     name: 'Translator',
     description: 'Translate text between a multitude of languages.',
@@ -235,7 +235,6 @@ export const allTools: Tool[] = [
     category: 'Online',
     component: NewsAggregatorTool,
   },
-  // Placeholder Tools
   {
     id: 'cloud-backup-sync',
     name: 'Cloud Backup/Sync',

@@ -2,63 +2,57 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-
-const FAVORITES_STORAGE_KEY = 'daily-spark-favorites';
+import { useAuth } from './use-auth';
+import { getUserData, saveUserData } from '@/services/database';
 
 export const useFavorites = (toolId: string) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
-    try {
-      const savedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY);
-      if (savedFavorites) {
-        const favorites: string[] = JSON.parse(savedFavorites);
-        setIsFavorite(favorites.includes(toolId));
-      }
-    } catch (error) {
-      console.error("Failed to read favorites from local storage", error);
+    if (user) {
+      getUserData(user.uid, 'favorites').then((favorites: string[] | null) => {
+        if (favorites) {
+          setIsFavorite(favorites.includes(toolId));
+        }
+      });
     }
-  }, [toolId]);
+  }, [user, toolId]);
 
-  const toggleFavorite = useCallback(() => {
-    try {
-      const savedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY);
-      const favorites: string[] = savedFavorites ? JSON.parse(savedFavorites) : [];
+  const toggleFavorite = useCallback(async () => {
+    if (!user) return;
+
+    const savedFavorites = await getUserData(user.uid, 'favorites') || [];
+    const favorites: string[] = Array.isArray(savedFavorites) ? savedFavorites : [];
+    
+    const newFavorites = favorites.includes(toolId)
+      ? favorites.filter(id => id !== toolId)
+      : [...favorites, toolId];
       
-      const newFavorites = favorites.includes(toolId)
-        ? favorites.filter(id => id !== toolId)
-        : [...favorites, toolId];
-        
-      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(newFavorites));
-      setIsFavorite(newFavorites.includes(toolId));
-      
-      // Dispatch a storage event to notify other components/tabs
-      window.dispatchEvent(new Event('storage'));
-      
-    } catch (error) {
-      console.error("Failed to update favorites in local storage", error);
-    }
-  }, [toolId]);
+    await saveUserData(user.uid, 'favorites', newFavorites);
+    setIsFavorite(newFavorites.includes(toolId));
+    
+    // Dispatch a storage event to notify other components/tabs
+    window.dispatchEvent(new Event('storage'));
+  }, [toolId, user]);
 
   return { isFavorite, toggleFavorite };
 };
 
 export const useAllFavorites = () => {
     const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+    const { user } = useAuth();
 
-    const updateFavorites = useCallback(() => {
-        try {
-            const savedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY);
-            if (savedFavorites) {
-                setFavoriteIds(JSON.parse(savedFavorites));
+    const updateFavorites = useCallback(async () => {
+        if (user) {
+            const favorites = await getUserData(user.uid, 'favorites');
+            if (favorites && Array.isArray(favorites)) {
+                setFavoriteIds(favorites);
             } else {
                 setFavoriteIds([]);
             }
-        } catch (error) {
-            console.error("Failed to read favorites from local storage", error);
-            setFavoriteIds([]);
         }
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         updateFavorites();

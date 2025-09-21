@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Loader2 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAuth } from '@/hooks/use-auth';
+import { getUserData, saveUserData } from '@/services/database';
 
-interface TodoItem {
+export interface TodoItem {
   id: number;
   text: string;
   completed: boolean;
@@ -18,17 +20,26 @@ interface TodoItem {
 export default function TodoListTool() {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [input, setInput] = useState('');
-
-  useEffect(() => {
-    const savedTodos = localStorage.getItem('daily-spark-todos');
-    if (savedTodos) {
-      setTodos(JSON.parse(savedTodos));
-    }
-  }, []);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
   
   useEffect(() => {
-    localStorage.setItem('daily-spark-todos', JSON.stringify(todos));
-  }, [todos]);
+    if(user) {
+        setIsLoading(true);
+        getUserData(user.uid, 'todos').then((savedTodos) => {
+            if (savedTodos && Array.isArray(savedTodos)) {
+                setTodos(savedTodos);
+            }
+            setIsLoading(false);
+        });
+    }
+  }, [user]);
+  
+  useEffect(() => {
+    if (user && !isLoading) {
+      saveUserData(user.uid, 'todos', todos);
+    }
+  }, [todos, user, isLoading]);
 
   const handleAddTodo = () => {
     if (input.trim() === '') return;
@@ -55,6 +66,14 @@ export default function TodoListTool() {
   
   const completedCount = todos.filter(t => t.completed).length;
   const totalCount = todos.length;
+
+  if (isLoading) {
+    return (
+        <div className="flex items-center justify-center min-h-[calc(80vh-180px)]">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+    )
+  }
 
   return (
     <div className="flex flex-col h-full min-h-[calc(80vh-180px)]">
