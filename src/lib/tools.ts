@@ -20,6 +20,7 @@ import AIPhotoEnhancerTool from '@/components/tools/ai-photo-enhancer';
 import AIStoryGeneratorTool from '@/components/tools/ai-story-generator';
 import AIVoiceToTextTool from '@/components/tools/ai-voice-to-text';
 import AIVideoSummarizerTool from '@/components/tools/ai-video-summarizer';
+import WeatherTool from '@/components/tools/weather-tool';
 
 export interface Tool {
   id: string;
@@ -191,14 +192,15 @@ export const allTools: Tool[] = [
     component: TranslatorTool,
     isFavorite: true,
   },
-  // Placeholder Tools
   {
     id: 'weather-updates',
     name: 'Weather Updates',
     description: 'Get real-time weather forecasts for any location.',
     icon: 'WeatherUpdates',
     category: 'Online',
+    component: WeatherTool,
   },
+  // Placeholder Tools
   {
     id: 'flashlight',
     name: 'Flashlight',

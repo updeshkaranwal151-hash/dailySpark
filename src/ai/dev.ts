@@ -15,3 +15,5 @@ import '@/ai/flows/ai-photo-enhancer.ts';
 import '@/ai/flows/ai-story-generator.ts';
 import '@/ai/flows/ai-voice-to-text.ts';
 import '@/ai/flows/ai-video-summarizer.ts';
+import '@/ai/flows/ai-weather-tool.ts';
+
