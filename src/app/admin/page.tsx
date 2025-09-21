@@ -8,6 +8,7 @@ import { Activity, Users, BrainCircuit, ArrowUpRight, ArrowLeft } from "lucide-r
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function AdminDashboardPage() {
   return (
@@ -116,7 +117,7 @@ function AdminDashboardPage() {
 function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen w-full flex-col">
-       <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
+       <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:px-6 z-10">
         <div className="flex items-center gap-4">
             <Button variant="outline" size="icon" asChild>
                 <Link href="/">
@@ -128,31 +129,35 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
         </div>
         <h1 className="text-xl font-semibold">Admin Panel</h1>
       </header>
-       <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
-        <div className="mx-auto grid w-full max-w-6xl gap-2">
-          <h1 className="text-3xl font-semibold">Dashboard</h1>
-        </div>
-        <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-           <nav
-            className="grid gap-4 text-sm text-muted-foreground"
-          >
-            <Link href="/admin" className="font-semibold text-primary">
-              Dashboard
-            </Link>
-            <Link href="/admin/users">
-              Users
-            </Link>
-            <Link href="#">
-              Analytics
-            </Link>
-            <Link href="#">
-              Settings
-            </Link>
-          </nav>
-          <div className="grid gap-6">
-            {children}
+       <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col bg-muted/40">
+        <ScrollArea className="flex-1">
+          <div className="p-4 md:gap-8 md:p-10">
+            <div className="mx-auto grid w-full max-w-6xl gap-2">
+              <h1 className="text-3xl font-semibold">Dashboard</h1>
+            </div>
+            <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+              <nav
+                className="grid gap-4 text-sm text-muted-foreground md:sticky md:top-24"
+              >
+                <Link href="/admin" className="font-semibold text-primary">
+                  Dashboard
+                </Link>
+                <Link href="/admin/users">
+                  Users
+                </Link>
+                <Link href="#">
+                  Analytics
+                </Link>
+                <Link href="#">
+                  Settings
+                </Link>
+              </nav>
+              <div className="grid gap-6">
+                {children}
+              </div>
+            </div>
           </div>
-        </div>
+        </ScrollArea>
       </main>
     </div>
   )
