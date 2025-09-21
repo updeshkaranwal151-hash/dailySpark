@@ -11,12 +11,6 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-if (!ai.googleSearch) {
-  throw new Error(
-    "Google Search tool is not defined. Ensure it's enabled in the googleAI() plugin configuration."
-  );
-}
-
 const ChatInputSchema = z.object({
   message: z.string().describe("The user's message."),
   photoDataUri: z
