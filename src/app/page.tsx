@@ -16,12 +16,11 @@ import {
   Sun,
   Moon,
   User,
+  Shield,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { User as FirebaseAuthUser } from 'firebase/auth';
-
 
 import { Input } from '@/components/ui/input';
 import {
@@ -50,6 +49,7 @@ import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import LoadingScreen from '@/components/loading-screen';
 import { useAllFavorites } from '@/hooks/use-favorites';
+import { useAuth } from '@/hooks/use-auth.tsx';
 
 
 type Category = 'All' | 'Offline' | 'Online' | 'AI' | 'Favorites';
@@ -58,23 +58,16 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [activeCategory, setActiveCategory] = React.useState<Category>('All');
   const [theme, setTheme] = React.useState('dark');
-  const [user, setUser] = React.useState<FirebaseAuthUser | null>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const { user, isAdmin, isLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const favoriteToolIds = useAllFavorites();
 
   React.useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        setUser(user);
-        setIsLoading(false);
-      } else {
-        router.push('/login');
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
+    if (!isLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isLoading, router]);
 
   const handleLogout = async () => {
     try {
@@ -121,7 +114,7 @@ export default function DashboardPage() {
     { name: 'Favorites', icon: <Star />, category: 'Favorites' },
   ] as const;
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <LoadingScreen isLoaded={!isLoading} />;
   }
 
@@ -159,6 +152,19 @@ export default function DashboardPage() {
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
+            {isAdmin && (
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  tooltip={{ children: 'Admin Panel' }}
+                >
+                  <Link href="/admin">
+                    <Shield />
+                    <span>Admin Panel</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )}
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild

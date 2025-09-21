@@ -18,26 +18,23 @@ import { Label } from "@/components/ui/label"
 import { BrainCircuit, Loader2 } from "lucide-react"
 import { auth } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth.tsx";
 
 export default function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const router = useRouter();
   const { toast } = useToast();
+  const { user, isLoading: isAuthLoading } = useAuth();
+
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
+    if (!isAuthLoading && user) {
         router.push('/');
-      } else {
-        setIsCheckingAuth(false);
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
+    }
+  }, [user, isAuthLoading, router]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +55,7 @@ export default function SignupPage() {
     }
   };
   
-  if (isCheckingAuth) {
+  if (isAuthLoading || user) {
     return (
         <div className="flex h-screen w-full items-center justify-center bg-background">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
