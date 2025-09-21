@@ -24,6 +24,7 @@ import AISmartSearchTool from '@/components/tools/ai-smart-search';
 import NewsAggregatorTool from '@/components/tools/news-aggregator';
 import CompassTool from '@/components/tools/compass';
 import PDFReaderTool from '@/components/tools/pdf-reader';
+import VoiceRecorderTool from '@/components/tools/voice-recorder';
 
 export interface Tool {
   id: string;
@@ -200,6 +201,14 @@ export const allTools: Tool[] = [
     category: 'Offline',
     component: PDFReaderTool,
   },
+  {
+    id: 'voice-recorder',
+    name: 'Voice Recorder',
+    description: 'Record high-quality audio with a single tap.',
+    icon: 'VoiceRecorder',
+    category: 'Offline',
+    component: VoiceRecorderTool,
+  },
    // Implemented Online Tools
   {
     id: 'translator',
@@ -233,12 +242,5 @@ export const allTools: Tool[] = [
     description: 'Sync your data and settings across all devices.',
     icon: 'CloudBackupSync',
     category: 'Online',
-  },
-  {
-    id: 'voice-recorder',
-    name: 'Voice Recorder',
-    description: 'Record high-quality audio with a single tap.',
-    icon: 'VoiceRecorder',
-    category: 'Offline',
   },
 ];
