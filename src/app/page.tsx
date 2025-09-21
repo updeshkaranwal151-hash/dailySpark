@@ -197,14 +197,9 @@ export default function DashboardPage() {
                 variant="ghost"
                 className="relative h-10 w-10 rounded-full"
               >
-                <Image
-                  src="https://picsum.photos/seed/avatar/200/200"
-                  alt="User Avatar"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                  data-ai-hint="person portrait"
-                />
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <User className="w-6 h-6 text-primary" />
+                </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
