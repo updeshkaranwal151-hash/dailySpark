@@ -14,6 +14,9 @@ import AIEmotionDetectorTool from '@/components/tools/ai-emotion-detector';
 import AIBrainstormTool from '@/components/tools/ai-brainstorm';
 import AIGrammarCheckerTool from '@/components/tools/ai-grammar-checker';
 import AISmartSearchTool from '@/components/tools/ai-smart-search';
+import AITextRewriterTool from '@/components/tools/ai-text-rewriter';
+import QRScannerTool from '@/components/tools/qr-scanner';
+import UnitConverterTool from '@/components/tools/unit-converter';
 
 export interface Tool {
   id: string;
@@ -93,6 +96,14 @@ export const allTools: Tool[] = [
     category: 'AI',
     component: AISmartSearchTool,
   },
+  {
+    id: 'ai-text-rewriter',
+    name: 'AI Text Rewriter',
+    description: 'Paraphrase and rewrite text to improve clarity.',
+    icon: 'AITextRewriter',
+    category: 'AI',
+    component: AITextRewriterTool,
+  },
   // Implemented Offline Tools
   {
     id: 'calculator',
@@ -127,6 +138,22 @@ export const allTools: Tool[] = [
     category: 'Offline',
     component: RandomNumberTool,
   },
+  {
+    id: 'qr-barcode-scanner',
+    name: 'QR/Barcode Scanner',
+    description: 'Scan and decode QR codes and barcodes instantly.',
+    icon: 'QRBarcodeScanner',
+    category: 'Offline',
+    component: QRScannerTool,
+  },
+  {
+    id: 'unit-converter',
+    name: 'Unit Converter',
+    description: 'Convert between various units of measurement.',
+    icon: 'UnitConverter',
+    category: 'Offline',
+    component: UnitConverterTool,
+  },
    // Implemented Online Tools
   {
     id: 'translator',
@@ -146,24 +173,10 @@ export const allTools: Tool[] = [
     category: 'Online',
   },
   {
-    id: 'unit-converter',
-    name: 'Unit Converter',
-    description: 'Convert between various units of measurement.',
-    icon: 'UnitConverter',
-    category: 'Offline',
-  },
-  {
     id: 'flashlight',
     name: 'Flashlight',
     description: 'Use your device\'s LED as a powerful flashlight.',
     icon: 'Flashlight',
-    category: 'Offline',
-  },
-  {
-    id: 'qr-barcode-scanner',
-    name: 'QR/Barcode Scanner',
-    description: 'Scan and decode QR codes and barcodes instantly.',
-    icon: 'QRBarcodeScanner',
     category: 'Offline',
   },
   {
@@ -178,13 +191,6 @@ export const allTools: Tool[] = [
     name: 'AI Photo Enhancer',
     description: 'Automatically improve the quality of your photos.',
     icon: 'AIPhotoEnhancer',
-    category: 'AI',
-  },
-  {
-    id: 'ai-text-rewriter',
-    name: 'AI Text Rewriter',
-    description: 'Paraphrase and rewrite text to improve clarity.',
-    icon: 'AITextRewriter',
     category: 'AI',
   },
   {
