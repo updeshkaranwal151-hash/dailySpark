@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,16 +14,32 @@ export default function RandomNumberTool() {
   const [key, setKey] = useState(0);
 
   const handleGenerate = () => {
-    const minNum = Number(min);
-    const maxNum = Number(max);
-    if (minNum > maxNum) {
-      setResult(null);
-      return;
-    }
-    const randomNumber = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
-    setResult(randomNumber);
-    setKey(prev => prev + 1); // a trick to re-trigger the animation
+    // Defer client-side specific logic
   };
+
+  useEffect(() => {
+    // This effect ensures client-side logic runs only after mounting
+    const generateNumber = () => {
+        const minNum = Number(min);
+        const maxNum = Number(max);
+        if (minNum > maxNum) {
+            setResult(null);
+            return;
+        }
+        const randomNumber = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+        setResult(randomNumber);
+        setKey(prev => prev + 1); // a trick to re-trigger the animation
+    }
+    
+    // We expose a function on the window to be called from the button onClick
+    // to avoid direct use of Math.random in the click handler which can cause hydration issues.
+    (window as any).generateRandomNumber = generateNumber;
+
+    return () => {
+        delete (window as any).generateRandomNumber;
+    }
+  }, [min, max]);
+
 
   return (
     <div className="space-y-6 text-center">
@@ -52,7 +68,7 @@ export default function RandomNumberTool() {
           <Input id="max" type="number" value={max} onChange={e => setMax(Number(e.target.value))} />
         </div>
       </div>
-      <Button onClick={handleGenerate} size="lg" className="w-full">
+      <Button onClick={() => (window as any).generateRandomNumber()} size="lg" className="w-full">
         <Dices className="mr-2 h-5 w-5" />
         Generate Number
       </Button>
