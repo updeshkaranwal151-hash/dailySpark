@@ -32,7 +32,9 @@ const prompt = ai.definePrompt({
   name: 'generateCodePrompt',
   input: {schema: GenerateCodeInputSchema},
   output: {schema: GenerateCodeOutputSchema},
-  prompt: `You are an expert software developer.  You will generate functional code based on the description of the program provided by the user.  Include comments in the code.
+  prompt: `You are an expert software developer. You will generate functional code based on the description of the program provided by the user.
+
+Ensure the code is well-formatted with proper indentation and line breaks. Include comments where appropriate.
 
 Description: {{{programDescription}}}`,
 });
