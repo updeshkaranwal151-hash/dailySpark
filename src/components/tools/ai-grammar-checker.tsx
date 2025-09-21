@@ -10,6 +10,7 @@ import { ArrowRight, Clipboard, Loader2, SpellCheck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 import { Skeleton } from '../ui/skeleton';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AIGrammarCheckerTool() {
   const [text, setText] = useState('');
@@ -18,6 +19,15 @@ export default function AIGrammarCheckerTool() {
   const { toast } = useToast();
 
   const handleCheckGrammar = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!text.trim()) {
       toast({
         title: 'Text is empty',
@@ -29,7 +39,7 @@ export default function AIGrammarCheckerTool() {
     setIsLoading(true);
     setCorrectedText('');
     try {
-      const result = await checkGrammar({ text });
+      const result = await checkGrammar({ text, apiKey });
       setCorrectedText(result.correctedText);
     } catch (error) {
       console.error(error);

@@ -10,6 +10,7 @@ import { Bot, Clipboard, Code, Loader2, Terminal, Sparkles } from 'lucide-react'
 import { Card, CardContent } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 function CodeGenerationLoader() {
     const [progress, setProgress] = useState(0);
@@ -212,6 +213,15 @@ export default function AICodeGeneratorTool() {
   const { toast } = useToast();
 
   const handleGenerateCode = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!description.trim()) {
       toast({
         title: 'Description is empty',
@@ -223,7 +233,7 @@ export default function AICodeGeneratorTool() {
     setIsLoading(true);
     setGeneratedCode('');
     try {
-      const result = await generateCode({ programDescription: description });
+      const result = await generateCode({ programDescription: description, apiKey });
       setGeneratedCode(result.code);
     } catch (error) {
       console.error(error);
@@ -311,7 +321,3 @@ export default function AICodeGeneratorTool() {
     </div>
   );
 }
-
-    
-
-    

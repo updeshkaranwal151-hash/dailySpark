@@ -12,8 +12,6 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-// Mock function to simulate fetching weather data.
-// In a real application, this would call a weather API.
 const getRealtimeWeather = ai.defineTool(
   {
     name: 'getRealtimeWeather',
@@ -43,6 +41,7 @@ const getRealtimeWeather = ai.defineTool(
 
 const GetWeatherInputSchema = z.object({
   city: z.string().describe('The city to get the weather for.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type GetWeatherInput = z.infer<typeof GetWeatherInputSchema>;
 
@@ -75,7 +74,9 @@ const getWeatherFlow = ai.defineFlow(
     outputSchema: GetWeatherOutputSchema,
   },
   async input => {
-    const llmResponse = await prompt(input);
+    const llmResponse = await prompt(input, {
+      auth: input.apiKey,
+    });
     const toolResponse = llmResponse.toolRequest?.output;
     
     if (!toolResponse) {

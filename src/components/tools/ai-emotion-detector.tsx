@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -8,6 +9,7 @@ import { Bot, Loader2, SmilePlus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { detectEmotion } from '@/ai/flows/ai-emotion-detector';
 import { AnimatePresence, motion } from 'framer-motion';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AIEmotionDetectorTool() {
   const [text, setText] = useState('');
@@ -16,6 +18,15 @@ export default function AIEmotionDetectorTool() {
   const { toast } = useToast();
 
   const handleDetectEmotion = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!text.trim()) {
       toast({
         title: 'Text is empty',
@@ -27,7 +38,7 @@ export default function AIEmotionDetectorTool() {
     setIsLoading(true);
     setResult(null);
     try {
-      const analysisResult = await detectEmotion({ text });
+      const analysisResult = await detectEmotion({ text, apiKey });
       setResult(analysisResult);
     } catch (error) {
       console.error(error);

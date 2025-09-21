@@ -18,6 +18,7 @@ import Link from "next/link"
 import { auth } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth.tsx";
+import { GEMINI_API_KEY_STORAGE_KEY } from "@/lib/constants";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -29,7 +30,11 @@ export default function LoginPage() {
   
   useEffect(() => {
     if (!isAuthLoading && user) {
-        router.push('/');
+        if (localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY)) {
+            router.push('/');
+        } else {
+            router.push('/welcome');
+        }
     }
   }, [user, isAuthLoading, router]);
 
@@ -38,7 +43,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/');
+      // The useEffect will handle the redirection
     } catch (error: any) {
       console.error(error);
       toast({
@@ -46,7 +51,6 @@ export default function LoginPage() {
         description: error.message,
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };

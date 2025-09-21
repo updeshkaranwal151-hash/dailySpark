@@ -19,6 +19,7 @@ import { BrainCircuit, Loader2 } from "lucide-react"
 import { auth } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth.tsx";
+import { GEMINI_API_KEY_STORAGE_KEY } from "@/lib/constants";
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -32,7 +33,11 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (!isAuthLoading && user) {
-        router.push('/');
+        if (localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY)) {
+            router.push('/');
+        } else {
+            router.push('/welcome');
+        }
     }
   }, [user, isAuthLoading, router]);
 
@@ -42,7 +47,7 @@ export default function SignupPage() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
-      router.push('/');
+      // The useEffect will handle redirection.
     } catch (error: any) {
       console.error(error);
       toast({
@@ -50,7 +55,6 @@ export default function SignupPage() {
         description: error.message,
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };

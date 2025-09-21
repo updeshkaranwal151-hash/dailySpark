@@ -17,6 +17,7 @@ const VoiceToTextInputSchema = z.object({
     .describe(
       "The audio file to transcribe, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type VoiceToTextInput = z.infer<typeof VoiceToTextInputSchema>;
 
@@ -50,8 +51,9 @@ const voiceToTextFlow = ai.defineFlow(
     outputSchema: VoiceToTextOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt({audio: input.audioDataUri});
+    const {output} = await prompt({audio: input.audioDataUri}, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );
-

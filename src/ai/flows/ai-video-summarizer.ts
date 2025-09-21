@@ -17,6 +17,7 @@ const SummarizeVideoInputSchema = z.object({
     .describe(
       "The video file to summarize, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type SummarizeVideoInput = z.infer<typeof SummarizeVideoInputSchema>;
 
@@ -50,7 +51,9 @@ const summarizeVideoFlow = ai.defineFlow(
     outputSchema: SummarizeVideoOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt({video: input.videoDataUri});
+    const {output} = await prompt({video: input.videoDataUri}, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

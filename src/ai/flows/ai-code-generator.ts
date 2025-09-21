@@ -16,6 +16,7 @@ const GenerateCodeInputSchema = z.object({
   programDescription: z
     .string()
     .describe('A description of the program to generate code for.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type GenerateCodeInput = z.infer<typeof GenerateCodeInputSchema>;
 
@@ -46,7 +47,9 @@ const generateCodeFlow = ai.defineFlow(
     outputSchema: GenerateCodeOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

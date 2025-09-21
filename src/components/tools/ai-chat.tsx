@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -11,6 +12,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 interface Message {
   id: number;
@@ -67,6 +69,15 @@ export default function AIChatTool() {
   };
 
   const handleSend = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if ((input.trim() === '' && !image) || isLoading) return;
 
     const userMessage: Message = {
@@ -81,7 +92,7 @@ export default function AIChatTool() {
     setIsLoading(true);
 
     try {
-      const result = await chat({ message: input, photoDataUri: image || undefined });
+      const result = await chat({ message: input, photoDataUri: image || undefined, apiKey });
       const botResponse: Message = {
         id: Date.now() + 1,
         text: result.response,

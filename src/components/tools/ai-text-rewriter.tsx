@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 import { Skeleton } from '../ui/skeleton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 const tones = ["formal", "casual", "confident", "witty", "humorous", "concise"];
 
@@ -22,6 +23,15 @@ export default function AITextRewriterTool() {
   const { toast } = useToast();
 
   const handleRewrite = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!text.trim()) {
       toast({
         title: 'Text is empty',
@@ -33,7 +43,7 @@ export default function AITextRewriterTool() {
     setIsLoading(true);
     setRewrittenText('');
     try {
-      const result = await rewriteText({ text, tone });
+      const result = await rewriteText({ text, tone, apiKey });
       setRewrittenText(result.rewrittenText);
     } catch (error) {
       console.error(error);

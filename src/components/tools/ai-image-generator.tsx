@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -8,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Bot, Download, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AIImageGeneratorTool() {
   const [prompt, setPrompt] = useState('');
@@ -16,6 +18,15 @@ export default function AIImageGeneratorTool() {
   const { toast } = useToast();
 
   const handleGenerateImage = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!prompt.trim()) {
       toast({
         title: 'Prompt is empty',
@@ -27,7 +38,7 @@ export default function AIImageGeneratorTool() {
     setIsLoading(true);
     setImageUrl('');
     try {
-      const result = await generateImage({ prompt });
+      const result = await generateImage({ prompt, apiKey });
       setImageUrl(result.imageUrl);
     } catch (error) {
       console.error(error);

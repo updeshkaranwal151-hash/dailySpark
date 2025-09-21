@@ -14,6 +14,7 @@ import {z} from 'genkit';
 
 const GenerateStoryInputSchema = z.object({
   prompt: z.string().describe('A short prompt or idea for the story.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type GenerateStoryInput = z.infer<typeof GenerateStoryInputSchema>;
 
@@ -45,7 +46,9 @@ const generateStoryFlow = ai.defineFlow(
     outputSchema: GenerateStoryOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

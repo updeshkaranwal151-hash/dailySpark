@@ -15,6 +15,7 @@ import {z} from 'genkit';
 const RewriteTextInputSchema = z.object({
   text: z.string().describe('The text to be rewritten.'),
   tone: z.string().describe('The desired tone for the rewritten text (e.g., formal, casual, confident, witty).'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type RewriteTextInput = z.infer<typeof RewriteTextInputSchema>;
 
@@ -46,7 +47,9 @@ const rewriteTextFlow = ai.defineFlow(
     outputSchema: RewriteTextOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

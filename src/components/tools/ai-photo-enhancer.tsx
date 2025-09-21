@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef } from 'react';
@@ -8,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Download, Image as ImageIcon, Loader2, Upload, Wand2, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { AnimatePresence, motion } from 'framer-motion';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AIPhotoEnhancerTool() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
@@ -29,6 +31,15 @@ export default function AIPhotoEnhancerTool() {
   };
 
   const handleEnhance = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!originalImage) {
       toast({
         title: 'No image selected',
@@ -40,7 +51,7 @@ export default function AIPhotoEnhancerTool() {
     setIsLoading(true);
     setEnhancedImage(null);
     try {
-      const result = await enhancePhoto({ photoDataUri: originalImage });
+      const result = await enhancePhoto({ photoDataUri: originalImage, apiKey });
       setEnhancedImage(result.enhancedImageUrl);
     } catch (error) {
       console.error(error);

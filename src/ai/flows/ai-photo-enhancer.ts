@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI-powered photo enhancer.
@@ -16,6 +17,7 @@ const EnhancePhotoInputSchema = z.object({
     .describe(
       "A photo of a plant, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type EnhancePhotoInput = z.infer<typeof EnhancePhotoInputSchema>;
 
@@ -44,6 +46,7 @@ const enhancePhotoFlow = ai.defineFlow(
       config: {
         responseModalities: ['TEXT', 'IMAGE'],
       },
+      auth: input.apiKey,
     });
     
     if (!media || !media.url) {

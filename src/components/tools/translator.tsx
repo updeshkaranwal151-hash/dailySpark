@@ -17,6 +17,7 @@ import {
 import { Skeleton } from '../ui/skeleton';
 import { translateText } from '@/ai/flows/ai-translator';
 import { ScrollArea } from '../ui/scroll-area';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 
 const languages = [
@@ -39,6 +40,15 @@ export default function TranslatorTool() {
   const { toast } = useToast();
 
   const handleTranslate = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!text.trim()) {
       toast({
         title: 'Text is empty',
@@ -50,7 +60,7 @@ export default function TranslatorTool() {
     setIsLoading(true);
     setTranslatedText('');
     try {
-      const result = await translateText({ text, targetLanguage });
+      const result = await translateText({ text, targetLanguage, apiKey });
       setTranslatedText(result.translatedText);
     } catch (error) {
       console.error(error);

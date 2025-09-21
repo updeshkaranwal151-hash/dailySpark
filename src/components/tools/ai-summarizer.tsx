@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -9,6 +10,7 @@ import { Blocks, Bot, Clipboard, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 import { Skeleton } from '../ui/skeleton';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AISummarizerTool() {
   const [text, setText] = useState('');
@@ -17,6 +19,15 @@ export default function AISummarizerTool() {
   const { toast } = useToast();
 
   const handleSummarizeText = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!text.trim()) {
       toast({
         title: 'Text is empty',
@@ -28,7 +39,7 @@ export default function AISummarizerTool() {
     setIsLoading(true);
     setSummary('');
     try {
-      const result = await summarizeText({ text });
+      const result = await summarizeText({ text, apiKey });
       setSummary(result.summary);
     } catch (error) {
       console.error(error);

@@ -9,6 +9,7 @@ import { Upload, Loader2, AudioLines, Clipboard } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ScrollArea } from '../ui/scroll-area';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AIVoiceToTextTool() {
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -41,6 +42,15 @@ export default function AIVoiceToTextTool() {
   };
 
   const handleTranscribe = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!audioDataUri) {
       toast({
         title: 'No audio file selected',
@@ -52,7 +62,7 @@ export default function AIVoiceToTextTool() {
     setIsLoading(true);
     setTranscription(null);
     try {
-      const result = await voiceToText({ audioDataUri });
+      const result = await voiceToText({ audioDataUri, apiKey });
       setTranscription(result.transcription);
     } catch (error) {
       console.error(error);

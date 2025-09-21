@@ -10,6 +10,7 @@ import { Card, CardContent } from '../ui/card';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ScrollArea } from '../ui/scroll-area';
 import { Skeleton } from '../ui/skeleton';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
@@ -45,6 +46,15 @@ export default function AIVideoSummarizerTool() {
   };
 
   const handleSummarize = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!videoDataUri) {
       toast({
         title: 'No video file selected',
@@ -56,7 +66,7 @@ export default function AIVideoSummarizerTool() {
     setIsLoading(true);
     setSummary(null);
     try {
-      const result = await summarizeVideo({ videoDataUri });
+      const result = await summarizeVideo({ videoDataUri, apiKey });
       setSummary(result.summary);
     } catch (error) {
       console.error(error);

@@ -15,6 +15,7 @@ import {z} from 'genkit';
 const TranslateTextInputSchema = z.object({
   text: z.string().describe('The text to translate.'),
   targetLanguage: z.string().describe('The language to translate the text into.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type TranslateTextInput = z.infer<typeof TranslateTextInputSchema>;
 
@@ -43,7 +44,9 @@ const translateTextFlow = ai.defineFlow(
     outputSchema: TranslateTextOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

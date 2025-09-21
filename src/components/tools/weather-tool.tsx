@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, Search, Thermometer, Wind, Droplets, Sun, Cloud, CloudRain, Snowflake } from 'lucide-react';
 import { getWeather, GetWeatherOutput } from '@/ai/flows/ai-weather-tool';
 import { Skeleton } from '../ui/skeleton';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 const WeatherIcon = ({ condition, className }: { condition: string; className?: string }) => {
   const lowerCaseCondition = condition.toLowerCase();
@@ -35,6 +36,15 @@ export default function WeatherTool() {
   const { toast } = useToast();
 
   const handleGetWeather = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!city.trim()) {
       toast({
         title: 'City is empty',
@@ -46,7 +56,7 @@ export default function WeatherTool() {
     setIsLoading(true);
     setWeather(null);
     try {
-      const result = await getWeather({ city });
+      const result = await getWeather({ city, apiKey });
       setWeather(result);
     } catch (error) {
       console.error(error);

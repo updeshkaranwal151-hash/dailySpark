@@ -15,6 +15,7 @@ import {defineTool} from 'genkit';
 
 const SmartSearchInputSchema = z.object({
   query: z.string().describe('The search query.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type SmartSearchInput = z.infer<typeof SmartSearchInputSchema>;
 
@@ -42,7 +43,9 @@ const smartSearchFlow = ai.defineFlow(
     outputSchema: SmartSearchOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

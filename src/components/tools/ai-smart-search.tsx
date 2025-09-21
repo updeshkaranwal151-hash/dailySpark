@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 import { Skeleton } from '../ui/skeleton';
 import { AnimatePresence, motion } from 'framer-motion';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AISmartSearchTool() {
   const [query, setQuery] = useState('');
@@ -19,6 +20,15 @@ export default function AISmartSearchTool() {
   const { toast } = useToast();
 
   const handleSearch = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!query.trim()) {
       toast({
         title: 'Query is empty',
@@ -30,7 +40,7 @@ export default function AISmartSearchTool() {
     setIsLoading(true);
     setAnswer('');
     try {
-      const result = await smartSearch({ query });
+      const result = await smartSearch({ query, apiKey });
       setAnswer(result.answer);
     } catch (error) {
       console.error(error);

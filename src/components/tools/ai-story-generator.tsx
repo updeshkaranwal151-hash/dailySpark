@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 import { Skeleton } from '../ui/skeleton';
 import { AnimatePresence, motion } from 'framer-motion';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AIStoryGeneratorTool() {
   const [prompt, setPrompt] = useState('');
@@ -19,6 +20,15 @@ export default function AIStoryGeneratorTool() {
   const { toast } = useToast();
 
   const handleGenerateStory = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!prompt.trim()) {
       toast({
         title: 'Prompt is empty',
@@ -30,7 +40,7 @@ export default function AIStoryGeneratorTool() {
     setIsLoading(true);
     setResult(null);
     try {
-      const storyResult = await generateStory({ prompt });
+      const storyResult = await generateStory({ prompt, apiKey });
       setResult(storyResult);
     } catch (error) {
       console.error(error);

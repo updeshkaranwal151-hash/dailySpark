@@ -14,6 +14,7 @@ import {z} from 'genkit';
 
 const BrainstormIdeasInputSchema = z.object({
   topic: z.string().describe('The topic to brainstorm ideas for.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type BrainstormIdeasInput = z.infer<typeof BrainstormIdeasInputSchema>;
 
@@ -43,7 +44,9 @@ const brainstormIdeasFlow = ai.defineFlow(
     outputSchema: BrainstormIdeasOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

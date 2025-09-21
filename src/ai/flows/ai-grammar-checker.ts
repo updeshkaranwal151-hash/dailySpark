@@ -14,6 +14,7 @@ import {z} from 'genkit';
 
 const CheckGrammarInputSchema = z.object({
   text: z.string().describe('The text to be checked for grammar and spelling.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type CheckGrammarInput = z.infer<typeof CheckGrammarInputSchema>;
 
@@ -43,7 +44,9 @@ const checkGrammarFlow = ai.defineFlow(
     outputSchema: CheckGrammarOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

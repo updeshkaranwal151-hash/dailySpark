@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -13,6 +14,7 @@ import {z} from 'genkit';
 
 const DetectEmotionInputSchema = z.object({
   text: z.string().describe('The text to analyze for emotion.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type DetectEmotionInput = z.infer<typeof DetectEmotionInputSchema>;
 
@@ -45,7 +47,9 @@ const detectEmotionFlow = ai.defineFlow(
     outputSchema: DetectEmotionOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {
+      auth: input.apiKey,
+    });
     return output!;
   }
 );

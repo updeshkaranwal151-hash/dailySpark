@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { ScrollArea } from '../ui/scroll-area';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Skeleton } from '../ui/skeleton';
+import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
 
 export default function AIBrainstormTool() {
   const [topic, setTopic] = useState('');
@@ -19,6 +20,15 @@ export default function AIBrainstormTool() {
   const { toast } = useToast();
 
   const handleGenerateIdeas = async () => {
+    const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    if (!apiKey) {
+        toast({
+            title: 'API Key is missing',
+            description: 'Please set your Gemini API key in your profile.',
+            variant: 'destructive',
+        });
+        return;
+    }
     if (!topic.trim()) {
       toast({
         title: 'Topic is empty',
@@ -30,7 +40,7 @@ export default function AIBrainstormTool() {
     setIsLoading(true);
     setIdeas([]);
     try {
-      const result = await brainstormIdeas({ topic });
+      const result = await brainstormIdeas({ topic, apiKey });
       setIdeas(result.ideas);
     } catch (error) {
       console.error(error);

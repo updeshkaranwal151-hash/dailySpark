@@ -15,6 +15,7 @@ import {z} from 'genkit';
 
 const GenerateImageInputSchema = z.object({
   prompt: z.string().describe('The prompt to use to generate the image.'),
+  apiKey: z.string().optional().describe('The user provided API key.'),
 });
 export type GenerateImageInput = z.infer<typeof GenerateImageInputSchema>;
 
@@ -40,6 +41,7 @@ const generateImageFlow = ai.defineFlow(
        config: {
         responseModalities: ['TEXT', 'IMAGE'],
       },
+      auth: input.apiKey,
     });
 
     if (!media || !media.url) {
