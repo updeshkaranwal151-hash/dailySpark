@@ -23,6 +23,7 @@ import WeatherTool from '@/components/tools/weather-tool';
 import AISmartSearchTool from '@/components/tools/ai-smart-search';
 import NewsAggregatorTool from '@/components/tools/news-aggregator';
 import CompassTool from '@/components/tools/compass';
+import PDFReaderTool from '@/components/tools/pdf-reader';
 
 export interface Tool {
   id: string;
@@ -191,6 +192,14 @@ export const allTools: Tool[] = [
     category: 'Offline',
     component: CompassTool,
   },
+  {
+    id: 'pdf-reader',
+    name: 'PDF Reader',
+    description: 'View and manage your PDF documents on the go.',
+    icon: 'PDFReader',
+    category: 'Offline',
+    component: PDFReaderTool,
+  },
    // Implemented Online Tools
   {
     id: 'translator',
@@ -224,13 +233,6 @@ export const allTools: Tool[] = [
     description: 'Sync your data and settings across all devices.',
     icon: 'CloudBackupSync',
     category: 'Online',
-  },
-  {
-    id: 'pdf-reader',
-    name: 'PDF Reader',
-    description: 'View and manage your PDF documents on the go.',
-    icon: 'PDFReader',
-    category: 'Offline',
   },
   {
     id: 'voice-recorder',
