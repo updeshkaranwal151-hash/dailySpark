@@ -16,3 +16,4 @@ import '@/ai/flows/ai-voice-to-text.ts';
 import '@/ai/flows/ai-video-summarizer.ts';
 import '@/ai/flows/ai-weather-tool.ts';
 import '@/ai/flows/ai-smart-search.ts';
+import '@/ai/flows/ai-news-aggregator.ts';

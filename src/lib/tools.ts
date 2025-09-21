@@ -21,6 +21,7 @@ import AIVoiceToTextTool from '@/components/tools/ai-voice-to-text';
 import AIVideoSummarizerTool from '@/components/tools/ai-video-summarizer';
 import WeatherTool from '@/components/tools/weather-tool';
 import AISmartSearchTool from '@/components/tools/ai-smart-search';
+import NewsAggregatorTool from '@/components/tools/news-aggregator';
 
 export interface Tool {
   id: string;
@@ -199,6 +200,14 @@ export const allTools: Tool[] = [
     category: 'Online',
     component: WeatherTool,
   },
+  {
+    id: 'news-aggregator',
+    name: 'News Aggregator',
+    description: 'Your daily news briefing from sources you trust.',
+    icon: 'NewsAggregator',
+    category: 'Online',
+    component: NewsAggregatorTool,
+  },
   // Placeholder Tools
   {
     id: 'flashlight',
@@ -213,13 +222,6 @@ export const allTools: Tool[] = [
     description: 'Find your direction with a simple and accurate compass.',
     icon: 'Compass',
     category: 'Offline',
-  },
-  {
-    id: 'news-aggregator',
-    name: 'News Aggregator',
-    description: 'Your daily news briefing from sources you trust.',
-    icon: 'NewsAggregator',
-    category: 'Online',
   },
   {
     id: 'cloud-backup-sync',
