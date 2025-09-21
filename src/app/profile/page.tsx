@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth.tsx';
-import { updateProfile, deleteUser, updatePassword, sendEmailVerification } from 'firebase/auth';
+import { updateProfile, deleteUser } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 
@@ -24,18 +24,13 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import LoadingScreen from '@/components/loading-screen';
-import { ArrowLeft, BrainCircuit, Loader2, BadgeCheck, BadgeAlert } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 
 export default function ProfilePage() {
   const { user, isLoading: isAuthLoading } = useAuth();
   const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [isSendingVerification, setIsSendingVerification] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -71,54 +66,6 @@ export default function ProfilePage() {
     }
   };
   
-  const handleChangePassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user || !newPassword) return;
-
-    setIsChangingPassword(true);
-    try {
-        // Note: Re-authentication is often required for sensitive operations.
-        // For simplicity, we are not implementing it here, but in a real app,
-        // you would re-authenticate the user before calling updatePassword.
-        await updatePassword(user, newPassword);
-        toast({
-            title: 'Password Updated',
-            description: 'Your password has been successfully changed.',
-        });
-        setPassword('');
-        setNewPassword('');
-    } catch (error: any) {
-        toast({
-            title: 'Password Change Failed',
-            description: error.message,
-            variant: 'destructive',
-        });
-    } finally {
-        setIsChangingPassword(false);
-    }
-  };
-
-  const handleSendVerification = async () => {
-    if (!user) return;
-    setIsSendingVerification(true);
-    try {
-      await sendEmailVerification(user);
-      toast({
-        title: 'Verification Email Sent',
-        description: 'Please check your inbox to verify your email address.',
-      });
-    } catch (error: any) {
-       toast({
-        title: 'Error Sending Email',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } finally {
-        setIsSendingVerification(false);
-    }
-  }
-
-
   const handleDeleteAccount = async () => {
     if (!user) return;
 
@@ -183,34 +130,8 @@ export default function ProfilePage() {
                   <Label htmlFor="email">Email</Label>
                    <div className="flex items-center gap-2">
                      <Input id="email" type="email" value={user.email || ''} disabled />
-                     {user.emailVerified ? (
-                       <BadgeCheck className="h-5 w-5 text-green-500" />
-                     ) : (
-                       <BadgeAlert className="h-5 w-5 text-yellow-500" />
-                     )}
                    </div>
                 </div>
-                 {!user.emailVerified && (
-                    <Alert>
-                      <AlertTitle className="flex items-center gap-2">
-                        <BadgeAlert className="h-4 w-4" />
-                        Email not verified
-                      </AlertTitle>
-                      <AlertDescription>
-                        Your email address has not been verified. Please check your inbox or click below to resend the verification link.
-                      </AlertDescription>
-                      <Button 
-                        size="sm" 
-                        variant="link" 
-                        className="p-0 h-auto mt-2" 
-                        onClick={handleSendVerification}
-                        disabled={isSendingVerification}
-                      >
-                         {isSendingVerification ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                         Resend verification email
-                      </Button>
-                    </Alert>
-                )}
               </CardContent>
               <CardFooter className="border-t px-6 py-4">
                 <Button type="submit" disabled={isUpdating}>
@@ -218,34 +139,6 @@ export default function ProfilePage() {
                   Save Changes
                 </Button>
               </CardFooter>
-            </form>
-          </Card>
-
-          <Card>
-            <form onSubmit={handleChangePassword}>
-                <CardHeader>
-                    <CardTitle>Change Password</CardTitle>
-                    <CardDescription>Update your account password.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="new-password">New Password</Label>
-                        <Input 
-                          id="new-password" 
-                          type="password"
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          disabled={isChangingPassword}
-                          placeholder="Enter your new password"
-                        />
-                    </div>
-                </CardContent>
-                <CardFooter className="border-t px-6 py-4">
-                    <Button type="submit" disabled={isChangingPassword || !newPassword}>
-                        {isChangingPassword && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Update Password
-                    </Button>
-                </CardFooter>
             </form>
           </Card>
           
