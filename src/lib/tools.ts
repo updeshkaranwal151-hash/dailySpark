@@ -13,7 +13,6 @@ import TranslatorTool from '@/components/tools/translator';
 import AIEmotionDetectorTool from '@/components/tools/ai-emotion-detector';
 import AIBrainstormTool from '@/components/tools/ai-brainstorm';
 import AIGrammarCheckerTool from '@/components/tools/ai-grammar-checker';
-import AISmartSearchTool from '@/components/tools/ai-smart-search';
 import AITextRewriterTool from '@/components/tools/ai-text-rewriter';
 import QRScannerTool from '@/components/tools/qr-scanner';
 import UnitConverterTool from '@/components/tools/unit-converter';
@@ -91,14 +90,6 @@ export const allTools: Tool[] = [
     icon: 'AIGrammarSpellChecker',
     category: 'AI',
     component: AIGrammarCheckerTool,
-  },
-  {
-    id: 'ai-smart-search',
-    name: 'AI Smart Search',
-    description: 'Get direct answers to your questions, powered by web search.',
-    icon: 'AISmartSearch',
-    category: 'AI',
-    component: AISmartSearchTool,
   },
   {
     id: 'ai-text-rewriter',
