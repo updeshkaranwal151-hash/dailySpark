@@ -11,6 +11,9 @@ import TodoListTool from '@/components/tools/todo-list';
 import RandomNumberTool from '@/components/tools/random-number-generator';
 import TranslatorTool from '@/components/tools/translator';
 import AIEmotionDetectorTool from '@/components/tools/ai-emotion-detector';
+import AIBrainstormTool from '@/components/tools/ai-brainstorm';
+import AIGrammarCheckerTool from '@/components/tools/ai-grammar-checker';
+import AISmartSearchTool from '@/components/tools/ai-smart-search';
 
 export interface Tool {
   id: string;
@@ -65,6 +68,30 @@ export const allTools: Tool[] = [
     icon: 'AIEmotionDetector',
     category: 'AI',
     component: AIEmotionDetectorTool,
+  },
+  {
+    id: 'ai-brainstorm-generator',
+    name: 'AI Idea Generator',
+    description: 'Generate creative ideas for any topic.',
+    icon: 'AIBrainstormIdeaGenerator',
+    category: 'AI',
+    component: AIBrainstormTool,
+  },
+  {
+    id: 'ai-grammar-spell-checker',
+    name: 'AI Grammar & Spell Checker',
+    description: 'Corrects grammar and spelling mistakes in your text.',
+    icon: 'AIGrammarSpellChecker',
+    category: 'AI',
+    component: AIGrammarCheckerTool,
+  },
+  {
+    id: 'ai-smart-search',
+    name: 'AI Smart Search',
+    description: 'Get direct answers to your questions, powered by web search.',
+    icon: 'AISmartSearch',
+    category: 'AI',
+    component: AISmartSearchTool,
   },
   // Implemented Offline Tools
   {
@@ -173,13 +200,6 @@ export const allTools: Tool[] = [
     description: 'Sync your data and settings across all devices.',
     icon: 'CloudBackupSync',
     category: 'Online',
-  },
-  {
-    id: 'ai-brainstorm-generator',
-    name: 'AI Idea Generator',
-    description: 'Generate creative ideas for any topic.',
-    icon: 'AIBrainstormIdeaGenerator',
-    category: 'AI',
   },
   {
     id: 'pdf-reader',
