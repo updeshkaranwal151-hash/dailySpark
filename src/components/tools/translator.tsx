@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select"
 import { Skeleton } from '../ui/skeleton';
 import { translateText } from '@/ai/flows/ai-translator';
+import { ScrollArea } from '../ui/scroll-area';
 
 
 const languages = [
@@ -73,12 +74,13 @@ export default function TranslatorTool() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="space-y-4">
+      <div className="space-y-4 flex flex-col">
         <Textarea
           placeholder="Enter text to translate..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={8}
+          className="flex-1"
         />
         <div className="flex justify-end">
             <Button variant="ghost" size="icon" onClick={() => handleCopy(text)} disabled={!text}>
@@ -96,6 +98,7 @@ export default function TranslatorTool() {
                 </Button>
             </CardHeader>
             <CardContent className="flex-1">
+                <ScrollArea className="h-full">
                  {isLoading ? (
                     <div className="space-y-2 pt-2">
                         <Skeleton className="h-4 w-full" />
@@ -109,6 +112,7 @@ export default function TranslatorTool() {
                         Your translation will appear here.
                     </div>
                 )}
+                </ScrollArea>
             </CardContent>
          </Card>
       </div>

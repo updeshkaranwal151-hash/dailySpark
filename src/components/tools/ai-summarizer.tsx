@@ -88,21 +88,21 @@ export default function AISummarizerTool() {
           </Button>
         </CardHeader>
         <CardContent>
-          {isLoading ? (
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-[75%]" />
-            </div>
-          ) : summary ? (
-            <ScrollArea className="h-32">
-              <p className="text-sm">{summary}</p>
-            </ScrollArea>
-          ) : (
-            <div className="text-center text-muted-foreground">
-              The generated summary will appear here.
-            </div>
-          )}
+          <ScrollArea className="h-40">
+              {isLoading ? (
+                <div className="space-y-2 p-1">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-[75%]" />
+                </div>
+              ) : summary ? (
+                  <p className="text-sm p-1">{summary}</p>
+              ) : (
+                <div className="flex h-full items-center justify-center text-center text-muted-foreground">
+                  The generated summary will appear here.
+                </div>
+              )}
+          </ScrollArea>
         </CardContent>
       </Card>
     </div>

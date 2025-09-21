@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Bot, Clipboard, Code, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
+import { ScrollArea } from '../ui/scroll-area';
 
 export default function AICodeGeneratorTool() {
   const [description, setDescription] = useState('');
@@ -87,22 +88,26 @@ export default function AICodeGeneratorTool() {
                     <Clipboard className="h-4 w-4" />
                 </Button>
             </div>
-            {isLoading ? (
-              <div className="space-y-2 p-4">
-                <Skeleton className="h-4 w-[80%]" />
-                <Skeleton className="h-4 w-[90%]" />
-                <Skeleton className="h-4 w-[75%]" />
-                <Skeleton className="h-4 w-[85%]" />
-              </div>
-            ) : generatedCode ? (
-              <pre className="overflow-x-auto p-4 text-sm">
-                <code>{generatedCode}</code>
-              </pre>
-            ) : (
-                <div className="p-8 text-center text-muted-foreground">
-                    Your generated code will appear here.
+            <ScrollArea className="h-64">
+                <div className="p-4">
+                    {isLoading ? (
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-[80%]" />
+                        <Skeleton className="h-4 w-[90%]" />
+                        <Skeleton className="h-4 w-[75%]" />
+                        <Skeleton className="h-4 w-[85%]" />
+                    </div>
+                    ) : generatedCode ? (
+                    <pre className="text-sm">
+                        <code>{generatedCode}</code>
+                    </pre>
+                    ) : (
+                        <div className="flex items-center justify-center h-full text-center text-muted-foreground">
+                            Your generated code will appear here.
+                        </div>
+                    )}
                 </div>
-            )}
+            </ScrollArea>
           </div>
         </CardContent>
       </Card>
