@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { allTools, Tool } from '@/lib/tools';
+import { allTools } from '@/lib/tools';
 import {
   Search,
   LayoutGrid,
@@ -49,6 +49,7 @@ import { ToolCard } from '@/components/dashboard/tool-card';
 import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import LoadingScreen from '@/components/loading-screen';
+import { useAllFavorites } from '@/hooks/use-favorites';
 
 
 type Category = 'All' | 'Offline' | 'Online' | 'AI' | 'Favorites';
@@ -61,15 +62,16 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = React.useState(true);
   const router = useRouter();
   const { toast } = useToast();
+  const favoriteToolIds = useAllFavorites();
 
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
+        setIsLoading(false);
       } else {
         router.push('/login');
       }
-      setIsLoading(false);
     });
     return () => unsubscribe();
   }, [router]);
@@ -98,8 +100,7 @@ export default function DashboardPage() {
     let tools = allTools;
     if (activeCategory !== 'All') {
       if (activeCategory === 'Favorites') {
-        // Favorites logic to be implemented
-        tools = tools.filter(tool => tool.isFavorite);
+        tools = tools.filter(tool => favoriteToolIds.includes(tool.id));
       } else {
         tools = tools.filter(tool => tool.category === activeCategory);
       }
@@ -110,7 +111,7 @@ export default function DashboardPage() {
       );
     }
     return tools;
-  }, [searchTerm, activeCategory]);
+  }, [searchTerm, activeCategory, favoriteToolIds]);
 
   const sidebarItems = [
     { name: 'All Tools', icon: <LayoutGrid />, category: 'All' },
@@ -120,7 +121,7 @@ export default function DashboardPage() {
     { name: 'Favorites', icon: <Star />, category: 'Favorites' },
   ] as const;
 
-  if (isLoading || !user) {
+  if (isLoading) {
     return <LoadingScreen isLoaded={!isLoading} />;
   }
 

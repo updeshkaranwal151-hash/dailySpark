@@ -9,6 +9,7 @@ import { Icons } from '@/components/icons';
 import { Button } from '../ui/button';
 import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useFavorites } from '@/hooks/use-favorites';
 
 interface ToolCardProps {
   tool: Tool;
@@ -16,13 +17,12 @@ interface ToolCardProps {
 }
 
 export function ToolCard({ tool, index }: ToolCardProps) {
-  const [isFavorite, setIsFavorite] = React.useState(tool.isFavorite);
+  const { isFavorite, toggleFavorite } = useFavorites(tool.id);
   const Icon = Icons[tool.icon];
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
-    // Here you would typically also update the tool's state globally or via an API call
+    toggleFavorite();
   };
 
   return (
