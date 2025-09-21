@@ -1,3 +1,4 @@
+
 import {
   type LucideIcon,
   UserPlus,
@@ -54,6 +55,7 @@ import {
   HeartPulse,
   Search,
   SmilePlus,
+  BookMarked,
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -115,5 +117,6 @@ export const Icons = {
   AIHealthTips: HeartPulse,
   AISmartSearch: Search,
   AIEmotionDetector: SmilePlus,
+  AIStoryGenerator: BookMarked,
   Placeholder: BrainCircuit,
 };

@@ -18,6 +18,8 @@ import AITextRewriterTool from '@/components/tools/ai-text-rewriter';
 import QRScannerTool from '@/components/tools/qr-scanner';
 import UnitConverterTool from '@/components/tools/unit-converter';
 import AIPhotoEnhancerTool from '@/components/tools/ai-photo-enhancer';
+import AIStoryGeneratorTool from '@/components/tools/ai-story-generator';
+import AIVoiceToTextTool from '@/components/tools/ai-voice-to-text';
 
 export interface Tool {
   id: string;
@@ -112,6 +114,22 @@ export const allTools: Tool[] = [
     icon: 'AIPhotoEnhancer',
     category: 'AI',
     component: AIPhotoEnhancerTool,
+  },
+  {
+    id: 'ai-story-generator',
+    name: 'AI Story Generator',
+    description: 'Write short stories from a simple prompt.',
+    icon: 'AIStoryGenerator',
+    category: 'AI',
+    component: AIStoryGeneratorTool,
+  },
+  {
+    id: 'ai-voice-to-text',
+    name: 'AI Voice to Text',
+    description: 'Transcribe audio files into text.',
+    icon: 'AIVoiceToText',
+    category: 'AI',
+    component: AIVoiceToTextTool,
   },
   // Implemented Offline Tools
   {

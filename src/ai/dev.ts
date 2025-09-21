@@ -13,3 +13,6 @@ import '@/ai/flows/ai-smart-search.ts';
 import '@/ai/flows/ai-text-rewriter.ts';
 import '@/ai/flows/ai-chat.ts';
 import '@/ai/flows/ai-photo-enhancer.ts';
+import '@/ai/flows/ai-story-generator.ts';
+import '@/ai/flows/ai-voice-to-text.ts';
+
