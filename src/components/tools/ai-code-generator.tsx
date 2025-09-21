@@ -140,6 +140,7 @@ function CodeGenerationLoader() {
                                     delay: Math.random() * (1 - progress/100),
                                     repeat: Infinity,
                                     repeatDelay: 1,
+                                    ease: "easeInOut"
                                 }}
                             />
                         ))}
@@ -195,7 +196,7 @@ function CodeGenerationLoader() {
                             className="flex items-center gap-2 text-xl font-bold text-white"
                         >
                             <Sparkles className="text-cyan-300" />
-                            Code Ready
+                            Code Generating
                         </motion.div>
                     </motion.div>
                 )}
@@ -310,5 +311,7 @@ export default function AICodeGeneratorTool() {
     </div>
   );
 }
+
+    
 
     
