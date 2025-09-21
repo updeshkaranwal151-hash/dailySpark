@@ -166,17 +166,6 @@ export default function DashboardPage() {
               </SidebarMenuItem>
             )}
             <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                tooltip={{ children: 'Profile & Settings' }}
-              >
-                <Link href="/profile">
-                  <Settings />
-                  <span>Settings</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
               <SidebarMenuButton onClick={handleLogout} tooltip={{ children: 'Log Out' }}>
                 <LogOut />
                 <span>Log Out</span>
@@ -227,19 +216,6 @@ export default function DashboardPage() {
                   </p>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/profile">
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/profile">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </Link>
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
