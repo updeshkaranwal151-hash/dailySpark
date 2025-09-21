@@ -1,3 +1,4 @@
+
 import type { ComponentType } from 'react';
 import { Icons } from '@/components/icons';
 import AIChatTool from '@/components/tools/ai-chat';
@@ -8,6 +9,7 @@ import CalculatorTool from '@/components/tools/calculator';
 import NotesTool from '@/components/tools/notes';
 import TodoListTool from '@/components/tools/todo-list';
 import RandomNumberTool from '@/components/tools/random-number-generator';
+import TranslatorTool from '@/components/tools/translator';
 
 export interface Tool {
   id: string;
@@ -89,6 +91,16 @@ export const allTools: Tool[] = [
     category: 'Offline',
     component: RandomNumberTool,
   },
+   // Implemented Online Tools
+  {
+    id: 'translator',
+    name: 'Translator',
+    description: 'Translate text between a multitude of languages.',
+    icon: 'Translator',
+    category: 'Online',
+    component: TranslatorTool,
+    isFavorite: true,
+  },
   // Placeholder Tools
   {
     id: 'weather-updates',
@@ -96,14 +108,6 @@ export const allTools: Tool[] = [
     description: 'Get real-time weather forecasts for any location.',
     icon: 'WeatherUpdates',
     category: 'Online',
-  },
-  {
-    id: 'translator',
-    name: 'Translator',
-    description: 'Translate text between a multitude of languages.',
-    icon: 'Translator',
-    category: 'Online',
-    isFavorite: true,
   },
   {
     id: 'unit-converter',
