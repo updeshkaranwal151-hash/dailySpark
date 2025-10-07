@@ -33,23 +33,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   
   const checkApiKey = () => {
-    const key = localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY);
+    const key = typeof window !== 'undefined' ? localStorage.getItem(GEMINI_API_KEY_STORAGE_KEY) : null;
     setHasApiKey(!!key);
     return !!key;
   };
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setUser(user);
-      if(user) {
-        if (!checkApiKey()) {
-            router.push('/welcome');
+    if (auth) {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+        setUser(user);
+        if(user) {
+            if (!checkApiKey()) {
+                router.push('/welcome');
+            }
         }
-      }
-      setIsLoading(false);
-    });
+        setIsLoading(false);
+        });
 
-    return () => unsubscribe();
+        return () => unsubscribe();
+    } else {
+        setIsLoading(false);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   

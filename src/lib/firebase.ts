@@ -14,15 +14,20 @@ const firebaseConfig: FirebaseOptions = {
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 };
 
-// Initialize Firebase
+// Initialize Firebase only on the client side
 let app;
-if (getApps().length === 0) {
+let auth;
+let db;
+
+if (typeof window !== 'undefined' && !getApps().length) {
     app = initializeApp(firebaseConfig);
-} else {
+    auth = getAuth(app);
+    db = getDatabase(app);
+} else if (typeof window !== 'undefined') {
     app = getApp();
+    auth = getAuth(app);
+    db = getDatabase(app);
 }
 
-const auth = getAuth(app);
-const db = getDatabase(app);
 
 export { app, auth, db };
