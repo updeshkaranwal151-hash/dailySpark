@@ -2,8 +2,8 @@
 'use client';
 
 import { useState, useEffect, createContext, useContext, ComponentType } from 'react';
-import { User } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { getFirebaseInstances } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import LoadingScreen from '@/components/loading-screen';
 import { GEMINI_API_KEY_STORAGE_KEY } from '@/lib/constants';
@@ -39,8 +39,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    const { auth } = getFirebaseInstances();
     if (auth) {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
         setUser(user);
         if(user) {
             if (!checkApiKey()) {

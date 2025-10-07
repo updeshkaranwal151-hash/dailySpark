@@ -44,7 +44,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ToolCard } from '@/components/dashboard/tool-card';
-import { auth } from '@/lib/firebase';
+import { getFirebaseInstances } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import LoadingScreen from '@/components/loading-screen';
 import { useAllFavorites } from '@/hooks/use-favorites';
@@ -71,6 +71,7 @@ export default function DashboardPage() {
 
   const handleLogout = async () => {
     try {
+      const { auth } = getFirebaseInstances();
       await auth.signOut();
       router.push('/login');
     } catch (error) {

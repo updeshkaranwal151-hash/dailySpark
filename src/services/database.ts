@@ -1,7 +1,7 @@
 
 'use server';
 
-import { db } from '@/lib/firebase';
+import { getFirebaseInstances } from '@/lib/firebase';
 import { ref, get, set } from 'firebase/database';
 
 /**
@@ -12,6 +12,8 @@ import { ref, get, set } from 'firebase/database';
  */
 export async function saveUserData(userId: string, path: string, data: any) {
   try {
+    const { db } = getFirebaseInstances();
+    if (!db) throw new Error("Firebase not initialized");
     const userRef = ref(db, `users/${userId}/${path}`);
     await set(userRef, data);
   } catch (error) {
@@ -28,6 +30,8 @@ export async function saveUserData(userId: string, path: string, data: any) {
  */
 export async function getUserData(userId: string, path: string) {
   try {
+    const { db } = getFirebaseInstances();
+    if (!db) throw new Error("Firebase not initialized");
     const userRef = ref(db, `users/${userId}/${path}`);
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
